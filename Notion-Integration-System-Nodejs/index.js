@@ -1,22 +1,16 @@
-const dotenv = require('dotenv').config()
-const { Client, isNotionClientError } = require('@notionhq/client')
+const dotenv = require("dotenv").config();
+const { Client, isNotionClientError } = require("@notionhq/client");
 const fetch = require("node-fetch");
-const https = require('follow-redirects').https;
-var fs = require('fs');
+var axios = require('axios');
 
-var options = {
-    'method': 'GET',
-    'hostname': 'graph.microsoft.com',
-    'path': '/v1.0/me/todo/lists/AQMkADAwATMwMAItZDc4My1hNzgwLTAwAi0wMAoALgAAA-TFHFdcrWdKr7VuOxefRroBAL21XYPGhyRGh0GI6v_IpJUAAAIBEgAAAA==/tasks',
-    'headers': {
-      'Authorization': 'Bearer EwBwA8l6BAAU6k7+XVQzkGyMv7VHB/h4cHbJYRAAAfTiHRYK04tey6hFTYMbJvj3AvNj1yEFBygvbU19P1W4kJpS6XLpILN3WrQ3ud3MqKo59sx5sfG1ka7+f0+wACGbUYtmXyo9nz+Qlo1JAfc0rOW8ScVfcrvk3SH6IYi/WoWj3c1Htg0MTyJhS9+GMGQGj39Ggj62PBfNU82+IxWfy3ahM4liiQ7U3SvalVQBX3F7IKp8Udm+p/D6Lfy7IosQqZN8B/5JXr/qNlt+hQWVmGHRR9kinBt/Nj2X4G0WOipru6a/JsvBu+wG6Ju3A35pESeYo2sELMXJBULfIVa3Kp4MVB9J5UmTR3xYmHDtLnMRMR2lfQwJyhvckX2qZoADZgAACHKaWs2HQ/rrQALlXRPwTI7JaZ41FS+rJLcDG009FMOC28OR+VqoQSZ4mFLq2hX9A9/kk25SXvPHOfEABzWJ9noimfE9Zkym0eMO7jfrU2ZDP4kYKDxkE1OqWpQoj3GnQyiEluUKhyJP6GHG89uO7fDqe23mALNOiPTH52jcVaHDcRfkCvwyhcXJq2steoejVQQAW4LwP50Y+oeX8aR9zIKc3Twv4PAjg0466E8k9F58CrLRjN3TwCrQTO08VN195xj3WdP/j6ZWrYcly2OqOTpaLpVIhieijD/pE2/w6knZs+jurrPdWDLKBDDufPzzQhQ06b6yoltOyF7XS5AiJc41tFXawLP0rA/Gvt282XUXP4hwcNmgtcaT8kw//S2h+Z5YumMkJ04IQhGU3C3skRBB5hy0WEFA3QyHCd7Bpxr8+I7rOMmDNLYq2G0DTg1Y3k/okaEwyqn2qAwI3l4SGPNJ0UVAqBk2rqj+PbfzywMXucH+ocQhA3xzok73WDXzKyQSFeEEGk7aouPQzB2sQ/7kOURtFydqBY6sbM4vpuBy8El7QVivqksL5iWFbKvTx9sSmhnmcH5PkePD23uzul/rKF+ZS/6xSUUCEPTIMHVhEaDqAGZeKsNPRcTjjUGNzlwmU0Ls1Hxh+yb65om/yuKDtj/WxJMviHn6AK8TUeDD7aOj9LgHNjJfgUUXiqPC8fN+Rs8jUKibBJW21Oqn8rFMuevYk90LL9RbE6OpgypjyrX9gXACul6SdqFKI2UEhpmQ+VYNA57xIJWIAg=='
-    },
-    'maxRedirects': 20
+
+var config = {
+    method: 'get',
+    url: 'https://graph.microsoft.com/v1.0/me/todo/lists/AQMkADAwATMwMAItZDc4My1hNzgwLTAwAi0wMAoALgAAA-TFHFdcrWdKr7VuOxefRroBAL21XYPGhyRGh0GI6v_IpJUAAAIBEgAAAA==/tasks',
+    headers: { 
+      'Authorization': 'Bearer EwBwA8l6BAAU6k7+XVQzkGyMv7VHB/h4cHbJYRAAAUNdsQOI4IqklNX94flgzu4pbeykAppmHodtSsCkYcniTx+uZ9nxDF4oBiEXsFwopfZEetbJ68Cz7y/mvrBsTqfGkJMRkxF/Ji+mREI2MnCMFNHGn8GFlHdjgY9Zu5NG9jpl9C604enXJdgAz6ruOYlwo4U3WPoiinIYt2otT6VFjT1mmjI2w86RBBVZJHr9b7qeJSnWPm958gw5I9uXcQ+1pFgt0Chefr0ne9UV73cjr78IwOcP3SxWzVq4e71tsI+dfC5JZA+/1a7mdK2gEviK+fjFC1fAOi2SK0rcKGmlUNP9nY5rfl5DC4y2eZyJayX92wubLYQq46eTJQa5ZiQDZgAACIP+psk8E9fsQAJly4kT5NgFbfMbBdLt3tTWMvm4bPWdoGWU9ifkjzdunJErMctA3szVFIfl7E1N0+74Ay1mGG0iDVJCFy8DHFOe2x7BqaNl3pJ8/W/DLEXn/EhqX5B3fhl20oW0xqfjMgqkWbpG1LaAdrn9K9XbXzHL/S/9S8nLBUtWVt2GB6DldfE/Qf129anSdsKyrU4Cx/IdNA+W3M7eAaSxFIHpDPMfRzKH/1/L6jQf3AoHa/1e59+lC8p9SP3Y4id8/wf3eM34nWETURWy/r+WComffE+JplBPb/Z+Y1mUBbiMzkGqky4aJ77qLWY2Yyn8or+tSa2Q46s2TTn2eZotEqkh5e+PMiwXR82MWn714T1Xvm52sQra8Xn6n/74N972HjxqusgQf5HMdSgKVOvwbY44p1LB+FmAPHhWQ320Kq2Iw6R38sxIpb39/JbzeswESMPMcEbDg+rUCJmJvhis7H18pK91vJW77VJAqUhXXpQn/7eflQYafHgklrP1ongc7XF6AfFNcyUlEu2etFtB8z7jfCTJ8fvOX1jhySCaWhzU/9KLNPyS6jSxQkj2XDgOQKjXBo4esgsb0kBvMm4sR/lsxuZlyW7aR5ydxOTAl/Wm9dhTMHhnYOU7hQIA0Us//vfgtdzppn+mn2slxcgycBZKdlnAFESpGB+W4sokObt9nQQ7tT/lMtPpeRlQ0HbhlGO1p6b/hFptAIU/3QczkXks8HyePLF7JMWuJhGPpN+f8UOggD3g6Q+m+Fss9S79CzSg7faIAg=='
+    }
   };
-  
-
-
-
 
 // const listDatabases = async () => {
 //     const res = await notion.databases.list()
@@ -25,36 +19,44 @@ var options = {
 
 // listDatabases()
 
+
 //NOTION
 
 const notion = new Client({
-    auth: process.env.NOTION_TOKEN
-})
+  auth: process.env.NOTION_TOKEN,
+});
 
+const getAllTasks = async () => {
+  const payload = {
+    path: `databases/${process.env.NOTION_ACTION_DATABASE_ID}/query`,
+    method: "POST",
+  };
 
-const getMicrosoftTodoTasks = async () => {
-    const payload = {
-        path: `databases/${process.env.NOTION_ACTION_DATABASE_ID}/query`,
-        method: 'POST'
+  var { results } = await notion.request(payload);
+  
+  const tasks = await results.map((page) => {
+    console.log(page.properties);
+    return {
+        id: page.id,
+        title: page.properties.Name.title[0].text.content
     }
-    
-    const data = await notion.request(payload)
-    console.log(data)
-}
+    // if(page.properties.Name.title[0].text.content == "create the notion-integration-system"){
+    //     console.log(page.properties);
+    // }
+  });
 
-const getTodos = async () => {
-    
-}
+};
+
+const getTodos = async () => {};
 
 //NOTION
 
-const action = async () =>{
-    const response = await fetch('loisl');
-    const myJson = await response.json();
-}
+const action = async () => {
+  const response = await fetch("loisl");
+  const myJson = await response.json();
+};
 
-let clientOptions = {}
-
+let clientOptions = {};
 
 // const userAction = async () => {
 //     const response = await fetch('https://graph.microsoft.com/v1.0/me/todo/lists/AQMkADAwATMwMAItZDc4My1hNzgwLTAwAi0wMAoALgAAA-TFHFdcrWdKr7VuOxefRroBAL21XYPGhyRGh0GI6v_IpJUAAAIBEgAAAA==/tasks', {
@@ -71,24 +73,15 @@ let clientOptions = {}
 // userAction();
 
 
-var req = https.request(options, function (res) {
-    var chunks = [];
-  
-    res.on("data", function (chunk) {
-      chunks.push(chunk);
-    });
-  
-    res.on("end", function (chunk) {
-      var body = Buffer.concat(chunks);
-      console.log(body.toString());
-    });
-  
-    res.on("error", function (error) {
-      console.error(error);
-    });
-  });
+axios(config)
+.then(function (response) {
+  console.log(JSON.stringify(response.data));
+})
+.catch(function (error) {
+  console.log(error);
+});
 
-req.end();
+//execution
 
-
-// getMicrosoftTodoTasks();
+// getAllTasks();
+// getAllTasks();
