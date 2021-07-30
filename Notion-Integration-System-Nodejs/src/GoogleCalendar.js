@@ -42,7 +42,7 @@ calendar.freebusy.query(
     resource: {
       timeMin: eventStartTime,
       timeMax: eventEndTime,
-      timeZone: "America/Denver",
+    //   timeZone: "America/Denver",
       items: [
         {
           id: "1_private",
@@ -51,20 +51,21 @@ calendar.freebusy.query(
     },
   },
   (err, res) => {
-    if (err) return console.error("Free Busy query error:", err);
+      return console.log(res)
+    // if (err) return console.error("Free Busy query error:", err);
 
-    const eventsArr = res.data.calendars.primary.busy;
+    // const eventsArr = res.data.calendars.primary.busy;
 
-    if (eventsArr.length === 0)
-      return calendar.event.insert(
-        { calendarId: "primary", resource: event },
-        (err) => {
-          if (err) {
-            return console.error("Calendar Event Creation Error: ", err);
-          }
-          return console.log("Calendar Event Created.");
-        }
-      );
-    return console.log("Sorry I am busy");
+    // if (eventsArr.length === 0)
+    //   return calendar.event.insert(
+    //     { calendarId: "primary", resource: event },
+    //     (err) => {
+    //       if (err) {
+    //         return console.error("Calendar Event Creation Error: ", err);
+    //       }
+    //       return console.log("Calendar Event Created.");
+    //     }
+    //   );
+    // return console.log("Sorry I am busy");
   }
 );
