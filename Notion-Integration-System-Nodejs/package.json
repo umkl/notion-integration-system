@@ -14,7 +14,7 @@
     "@notionhq/client": "^0.2.3",
     "axios": "^0.21.1",
     "dotenv": "^10.0.0",
-    "googleapis": "^82.0.0",
+    "googleapis": "^39.2.0",
     "node-fetch": "^2.6.1"
   }
 }

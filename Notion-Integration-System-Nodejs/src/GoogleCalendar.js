@@ -1,71 +1,28 @@
-const { google } = require("googleapis");
-const { OAuth2 } = google.auth;
+const fs = require('fs');
+const readline = require('readline');
+const {google} = require('googleapis');
 
-const clientId =
-  "258537530933-5710v0gf3nratqct6ot09650uvomrnca.apps.googleusercontent.com";
-const clientSecret = "pY9O0_ugrXFXPa-J29CYD55u"; //clientkey
+const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
+const TOKEN_PATH = 'token.json';
+//The file toke.json stores the user's access and refresh tokens, and is created automatically when the authorization flow completes for the first time.
 
-const oAuth2Client = new OAuth2(clientId, clientSecret);
+//Load clieint scretes from a local file
+fs.readFile('credentials.json', (err, content) =>{
+    if(err) return console.log("error: ",err);
+    authorize(JSON.parse(content), listEvents);    
+});
 
-const refreshToken =
-  "1//04eHEgqaGbF8_CgYIARAAGAQSNwF-L9IrVWrOn9nDkbyoRKOgaO1spJCclZ8VosSTH8p_hpOyMzSPVrq2_5rtkQhr0dwrQBEemqE";
+function authorize(credentials, callback){
+    const {client_secret, client_id, redirect_uris} = credentials.installed;
+    const oAuth2Client = new google.auth.OAuth2(
+        client_id, client_secret, redirect_uris[0]);
+  
+    // Check if we have previously stored a token.
+    fs.readFile(TOKEN_PATH, (err, token) => {
+      if (err) return getAccessToken(oAuth2Client, callback);
+      oAuth2Client.setCredentials(JSON.parse(token));
+      callback(oAuth2Client);
+    });
+}
 
-oAuth2Client.setCredentials({ refresh_token: refreshToken });
 
-const calendar = google.calendar({ version: "v3", auth: oAuth2Client });
-
-const eventStartTime = new Date();
-eventStartTime.setDate(eventStartTime.getDay() + 2);
-
-const eventEndTime = new Date();
-eventEndTime.setDate(eventEndTime.getDay() + 2);
-eventEndTime.setMinutes(eventEndTime.getMinutes() + 45);
-
-const event = {
-  summary: "Meet with David",
-  location: "295 California St, San Francisco, CA 94111",
-  description:
-    "Meeting with David to talk about the new client project and how to add the google calendar api.",
-  start: {
-    dateTime: eventStartTime,
-    timeZone: "America/Denver",
-  },
-  end: {
-    dateTime: eventEndTime,
-    timeZone: "America/Denver",
-  },
-  colorId: 1,
-};
-
-calendar.freebusy.query(
-  {
-    resource: {
-      timeMin: eventStartTime,
-      timeMax: eventEndTime,
-    //   timeZone: "America/Denver",
-      items: [
-        {
-          id: "1_private",
-        },
-      ],
-    },
-  },
-  (err, res) => {
-      return console.log(res)
-    // if (err) return console.error("Free Busy query error:", err);
-
-    // const eventsArr = res.data.calendars.primary.busy;
-
-    // if (eventsArr.length === 0)
-    //   return calendar.event.insert(
-    //     { calendarId: "primary", resource: event },
-    //     (err) => {
-    //       if (err) {
-    //         return console.error("Calendar Event Creation Error: ", err);
-    //       }
-    //       return console.log("Calendar Event Created.");
-    //     }
-    //   );
-    // return console.log("Sorry I am busy");
-  }
-);
