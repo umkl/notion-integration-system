@@ -1,0 +1,23 @@
+{
+    "version":"0.2.0",
+    "configurations": [
+    {
+        "target": "es5",
+        "module": "commonjs",
+        "outDir": "${workspaceFolder}/dist",
+        "sourceMap": true,
+        "type": "node",
+        "request": "launch",
+        "name": "Launch via NPM",
+        "runtimeExecutable": "npm",
+        "runtimeArgs": [
+            "run-script",
+            "debug"
+        ],
+        "port": 9229,
+        "skipFiles": [
+            "<node_internals>/**"
+        ]
+    }
+    ]
+}

@@ -1,6 +1,7 @@
-abstract class RepositoryInterface{
-    abstract appId: String;
+export abstract class RepositoryInterface{
+    abstract accessId: String;
     abstract appSecret?: String;
+    abstract credentialsPath?: String;
     init(): void {
         
     }

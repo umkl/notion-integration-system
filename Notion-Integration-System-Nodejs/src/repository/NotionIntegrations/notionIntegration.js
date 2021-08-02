@@ -38,10 +38,3 @@ const getAllTasks = async () => {
 const getTodos = async () => {};
 
 //NOTION
-
-const action = async () => {
-  const response = await fetch("loisl");
-  const myJson = await response.json();
-};
-
-let clientOptions = {};
