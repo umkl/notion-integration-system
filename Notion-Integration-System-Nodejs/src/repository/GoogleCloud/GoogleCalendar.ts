@@ -7,40 +7,48 @@ import { RepositoryInterface } from "./../RepositoryInterface";
 export class GoogleCalendarIntegration implements RepositoryInterface {
   constructor() {
     this.init();
+    this.store();
   }
+  appSecret?: String | undefined;
+  data: any[] = [];
 
   credentialsPath: String = "../../credentials/googleCloud.json";
   accessId: String = "jalksdf";
-  // appSecret?: String | undefined;
   SCOPES = ["https://www.googleapis.com/auth/calendar"];
   TOKEN_PATH = "./../../credentials/googleCloudToken.json";
+  oAuth2Client: any;
+  
 
   init = () => {
     // Load client secrets from a local file.
-    fs.readFile(path.resolve(__dirname,"../../credentials/googleCloud.json"), (err: any, content: any) => {
-      if (err) return console.log("Error loading client secret file:", err);
-      this.authorize(JSON.parse(content));
-    });
-    
+    fs.readFile(
+      path.resolve(__dirname, "../../credentials/googleCloud.json"),
+      (err: any, content: any) => {
+        if (err) return console.log("Error loading client secret file:", err);
+        this.authorize(JSON.parse(content));
+      }
+    );
   };
 
   authorize = (credentials: any) => {
     const { client_secret, client_id, redirect_uris } = credentials.installed;
-    const oAuth2Client = new google.auth.OAuth2(
+    this.oAuth2Client = new google.auth.OAuth2(
       client_id,
       client_secret,
       redirect_uris[0]
     );
 
-    fs.readFile(path.resolve(__dirname,"../../credentials/googleCloudToken.json"), (err: any, token: any) => {
-      if (err) return this.getAccessToken(oAuth2Client);
-      oAuth2Client.setCredentials(JSON.parse(token));
-      this.listEvents(oAuth2Client);
-    });
+    fs.readFile(
+      path.resolve(__dirname, "../../credentials/googleCloudToken.json"),
+      (err: any, token: any) => {
+        if (err) return this.getAccessToken(this.oAuth2Client);
+        this.oAuth2Client.setCredentials(JSON.parse(token));
+      }
+    );
   };
 
-  getAccessToken = (oAuth2Client: any) => {
-    const authUrl = oAuth2Client.generateAuthUrl({
+  getAccessToken = (paramOAuth2Client: any) => {
+    const authUrl = paramOAuth2Client.generateAuthUrl({
       access_type: "offline",
       scope: this.SCOPES,
     });
@@ -51,26 +59,43 @@ export class GoogleCalendarIntegration implements RepositoryInterface {
     });
     rl.question("Enter code: ", (code: any) => {
       rl.close();
-      oAuth2Client.getToken(code, (err: any, token: any) => {
+      paramOAuth2Client.getToken(code, (err: any, token: any) => {
         if (err) return console.error("Error retrieving access token", err);
-        oAuth2Client.setCredentials(token);
+        paramOAuth2Client.setCredentials(token);
         // Store the token to disk for later program executions
         fs.writeFile(this.TOKEN_PATH, JSON.stringify(token), (err: any) => {
           if (err) return console.error(err);
           console.log("Token stored to", this.TOKEN_PATH);
         });
-        this.listEvents(oAuth2Client);
+        this.oAuth2Client = paramOAuth2Client;
       });
     });
   };
 
-  listEvents = (auth: any) => {
-    const calendar = google.calendar({ version: "v3", auth: auth });
+  // listEvents = (auth: any) => {
+  //   const calendar = google.calendar({ version: "v3", auth: auth });
+  //   calendar.calendarList.list({}, (err: any, result: { data: any }) => {
+  //     if (err) {
+  //       console.log(err);
+  //     } else {
+  //       console.log("Output: " + JSON.stringify(result.data, null, 2)); // or JSON.stringify(result.data)
+  //     }
+  //   });
+  // };
+
+  store = () => {
+    const calendar = google.calendar({
+      version: "v3",
+      auth: this.oAuth2Client,
+    });
     calendar.calendarList.list({}, (err: any, result: { data: any }) => {
       if (err) {
         console.log(err);
       } else {
-        console.log("Output: " + JSON.stringify(result.data, null, 2)); // or JSON.stringify(result.data)
+        result.data.map((x:any)=>{
+          this.data.push(x);
+        })
+        // console.log("Output: " + JSON.stringify(result.data, null, 2));
       }
     });
   };

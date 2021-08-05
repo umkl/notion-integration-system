@@ -8,12 +8,15 @@ import { NotionIntegration } from './repository/NotionIntegrations/Notion';
 app.get('/', (req: any, res: any)=>{
     // var gci: GoogleCalendarIntegration = new GoogleCalendarIntegration();
     // gci.listEvents;
-    var ni: NotionIntegration = new NotionIntegration();
-    ni.listActions();
     res.send('Hello world!')
 
 })
 
 app.listen(port, () =>{
     console.log('ok')
+    var ni: NotionIntegration = new NotionIntegration();
+    var gci: GoogleCalendarIntegration = new GoogleCalendarIntegration();
+
+    ni.listActions();
+    // gci.listEvents(gci.oAuth2Client);
 })
