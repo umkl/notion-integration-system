@@ -11,14 +11,12 @@ export class GoogleCalendarIntegration implements RepositoryInterface {
   }
   appSecret?: String | undefined;
   data: any[] = [];
-
   credentialsPath: String = "../../credentials/googleCloud.json";
   accessId: String = "jalksdf";
   SCOPES = ["https://www.googleapis.com/auth/calendar"];
   TOKEN_PATH = "./../../credentials/googleCloudToken.json";
   oAuth2Client: any;
   
-
   init = () => {
     // Load client secrets from a local file.
     fs.readFile(
@@ -37,7 +35,6 @@ export class GoogleCalendarIntegration implements RepositoryInterface {
       client_secret,
       redirect_uris[0]
     );
-
     fs.readFile(
       path.resolve(__dirname, "../../credentials/googleCloudToken.json"),
       (err: any, token: any) => {
@@ -90,7 +87,7 @@ export class GoogleCalendarIntegration implements RepositoryInterface {
     });
     calendar.calendarList.list({}, (err: any, result: { data: any }) => {
       if (err) {
-        console.log(err);
+       console.log(err);
       } else {
         result.data.map((x:any)=>{
           this.data.push(x);

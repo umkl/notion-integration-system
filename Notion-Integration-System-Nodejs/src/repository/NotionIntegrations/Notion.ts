@@ -19,15 +19,36 @@ export class NotionIntegration implements RepositoryInterface {
       auth: this.accessId,
     });
   }
+
   listActions = async () => {
     const payload = {
       path: `databases/${this.action_database_id}/query`,
       method: "POST",
     };
+    
+
     const { results } = await this.notionClient.request(payload);
     await results.map((page: any) => {
       this.data.push(page);
     });
     console.log(this.data);
+    
   };
+
+  listUsers = async () =>{
+    const listUserResponse = await this.notionClient.users.list();
+  }
+
+
+  addAction = async () =>{
+    const payload={
+      path:`pages`,
+      method: "POST"
+    }
+
+    this.notionClient.databases.query(); 
+    // this.notionClient.request;
+    // const {results} = await this.notionClient.reqest(payload);
+  
+  }
 }
