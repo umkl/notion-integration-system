@@ -3,7 +3,7 @@
 	"tasks": [
 		{
 			"type": "typescript",
-			"tsconfig": "Notion-Integration-System-Nodejs/tsconfig.json",
+			"tsconfig": "tsconfig.json",
 			"option": "watch",
 			"problemMatcher": [
 				"$tsc-watch"
@@ -12,7 +12,7 @@
 				"kind": "build",
 				"isDefault": true
 			},
-			"label": "tsc: watch - Notion-Integration-System-Nodejs/tsconfig.json"
+			"label": "tsc: watch - tsconfig.json"
 		}
 	]
 }

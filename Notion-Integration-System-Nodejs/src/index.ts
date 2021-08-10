@@ -16,7 +16,11 @@ app.listen(port, () =>{
     console.log('ok')
     var ni: NotionIntegration = new NotionIntegration();
     var gci: GoogleCalendarIntegration = new GoogleCalendarIntegration();
-
-    ni.listActions();
+    
+    const page = {
+        Name:"Action Name 123"
+    }
+    ni.addAction(page);
+    // ni.listActions();
     // gci.listEvents(gci.oAuth2Client);
 })
