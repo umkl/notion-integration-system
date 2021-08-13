@@ -47,7 +47,7 @@ export class NotionIntegration implements RepositoryInterface {
           title: [
             {
               text: {
-                content: page.name,
+                content: "name",
               },
             },
           ],
