@@ -28,6 +28,6 @@ app.listen(port, () => {
     console.log("World!");
   }, 2000);
 
-  // ni.listActions();
+  // ni.listActions(ok);
   // gci.listEvents(gci.oAuth2Client);
 });
