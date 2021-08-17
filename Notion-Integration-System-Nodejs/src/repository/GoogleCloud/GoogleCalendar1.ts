@@ -1,61 +1,25 @@
-const express = require("express");
-const app = express();
-const port = 4000;
-import { GoogleCalendarIntegration } from "./repository/GoogleCloud/GoogleCalendar";
-import { NotionIntegration } from "./repository/NotionIntegrations/Notion";
-
-import path from "path";
-
-app.get("/", (req: any, res: any) => {
-  // var gci: GoogleCalendarIntegration = new GoogleCalendarIntegration();
-  // gci.listEvents;
-  res.send("Hello world!");
-});
-
-app.listen(port, async () => {
-  // console.log("ok");
-  // var ni: NotionIntegration = new NotionIntegration();
-  // var gci: GoogleCalendarIntegration = new GoogleCalendarIntegration();
-
-  fs.readFile(CREDENTIALS_PATH, (err: any, content: string) => {
-    if (err) return console.log("Error loading client secret file:", err);
-    // Authorize a client with credentials, then call the Google Calendar API.
-    authorize(JSON.parse(content), listEvents);
-  });
-  listEvents(authenticationGoogle);
-});
-
-function startServer() {
-  setInterval(() => {
-    console.log("World!");
-  }, 2000);
-}
-
 const fs = require("fs");
 const readline = require("readline");
 const { google } = require("googleapis");
-var authenticationGoogle: any;
 
 // If modifying these scopes, delete token.json.
 const SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"];
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
 // time.
-const TOKEN_PATH = path.resolve(
-  __dirname,
-  "./credentials/googleCloudToken.json"
-);
-const CREDENTIALS_PATH = path.resolve(
-  __dirname,
-  "./credentials/googleCloud.json"
-);
+const TOKEN_PATH = "./credentials/token.json";
 
-// Load client secrets from a local file.
-fs.readFile(CREDENTIALS_PATH, (err: any, content: string) => {
-  if (err) return console.log("Error loading client secret file:", err);
-  // Authorize a client with credentials, then call the Google Calendar API.
-  authorize(JSON.parse(content), listEvents);
-});
+export function ExecGoogleCalendarTest() {
+  // Load client secrets from a local file.
+  fs.readFile(
+    "./credentials/googleCloud.json",
+    (err: any, content: string) => {
+      if (err) return console.log("Error loading client secret file:", err);
+      // Authorize a client with credentials, then call the Google Calendar API.
+      authorize(JSON.parse(content), listEvents);
+    }
+  );
+}
 
 /**
  * Create an OAuth2 client with the given credentials, and then execute the
@@ -80,7 +44,6 @@ function authorize(
   fs.readFile(TOKEN_PATH, (err: any, token: string) => {
     if (err) return getAccessToken(oAuth2Client, callback);
     oAuth2Client.setCredentials(JSON.parse(token));
-    authenticationGoogle = oAuth2Client;
     callback(oAuth2Client);
   });
 }
@@ -118,7 +81,6 @@ function getAccessToken(
         if (err) return console.error(err);
         console.log("Token stored to", TOKEN_PATH);
       });
-      authenticationGoogle = oAuth2Client;
       callback(oAuth2Client);
     });
   });

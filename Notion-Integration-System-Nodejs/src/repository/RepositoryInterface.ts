@@ -2,7 +2,7 @@ export abstract class RepositoryInterface{
     abstract accessId: String;
     abstract appSecret?: String;
     abstract credentialsPath?: String;
-    abstract data: any[];
+    // abstract data: any[];
     init(): void {
         
     }
