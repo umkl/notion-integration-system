@@ -6,28 +6,36 @@ import { RepositoryInterface } from "./../RepositoryInterface";
 
 export class GoogleCalendarIntegration implements RepositoryInterface {
   SCOPES: string[];
-  TOKEN_PATH = path.resolve(__dirname, "./../../credentials/googleCloudToken.json");
-  CREDENTIALS_PATH = path.resolve(__dirname, "./../../credentials/googleCloud.json");
+  TOKEN_PATH = path.resolve(
+    __dirname,
+    "./../../credentials/googleCloudToken.json"
+  );
+  CREDENTIALS_PATH = path.resolve(
+    __dirname,
+    "./../../credentials/googleCloud.json"
+  );
   accessId: String = "";
   oAuth2Client: any = null;
-  
 
   constructor() {
     this.SCOPES = ["https://www.googleapis.com/auth/calendar"];
   }
 
-  init =  async () => {
-    // Load client secrets from a local file.
-    await fs.readFile(this.CREDENTIALS_PATH, async (err: any, content: string) => {
-      if (err) return console.log("Error loading client secret file:", err);
-      // Authorize a client with credentials, then call the Google Calendar API.
-      await this.authorize(JSON.parse(content));
+  init = () => {
+    return new Promise<void>((resolve, reject): void => {
+      fs.readFile(this.CREDENTIALS_PATH, (err: any, content: string) => {
+        if (err) return console.log("Error loading client secret file:", err);
+        this.authorize(JSON.parse(content), resolve);
+      });
     });
   };
 
-  authorize = async (credentials: {
-    installed: { client_secret: any; client_id: any; redirect_uris: any };
-  }) => {
+  authorize = async (
+    credentials: {
+      installed: { client_secret: any; client_id: any; redirect_uris: any };
+    },
+    callback: { (auth: any): void; (): void }
+  ) => {
     const { client_secret, client_id, redirect_uris } = credentials.installed;
     this.oAuth2Client = new google.auth.OAuth2(
       client_id,
@@ -36,11 +44,12 @@ export class GoogleCalendarIntegration implements RepositoryInterface {
     );
     fs.readFile(this.TOKEN_PATH, async (err: any, token: string) => {
       if (err) return this.getAccessToken();
-      await this.oAuth2Client.setCredentials(JSON.parse(token));
+      this.oAuth2Client.setCredentials(JSON.parse(token));
+      callback();
     });
   };
 
-  getAccessToken = ()=> {
+  getAccessToken = () => {
     const authUrl = this.oAuth2Client.generateAuthUrl({
       access_type: "offline",
       scope: this.SCOPES,
@@ -62,10 +71,13 @@ export class GoogleCalendarIntegration implements RepositoryInterface {
         });
       });
     });
-  }
+  };
 
-  listEvents = (auth: any) => {
-    const calendar = google.calendar({ version: "v3", auth });
+  listEvents = () => {
+    const calendar = google.calendar({
+      version: "v3",
+      auth: this.oAuth2Client,
+    });
     calendar.events.list(
       {
         calendarId: "primary",

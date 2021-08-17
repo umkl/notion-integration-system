@@ -13,17 +13,28 @@ app.get("/", (req: any, res: any) => {
 });
 
 app.listen(port, async () => {
+  // console.log("start");
+  // await authorizeFun();
+  // console.log("After exec.");
+  // listEvents(authenticationGoogle);
   // console.log("ok");
   // var ni: NotionIntegration = new NotionIntegration();
-  // var gci: GoogleCalendarIntegration = new GoogleCalendarIntegration();
-
-  fs.readFile(CREDENTIALS_PATH, (err: any, content: string) => {
-    if (err) return console.log("Error loading client secret file:", err);
-    // Authorize a client with credentials, then call the Google Calendar API.
-    authorize(JSON.parse(content), listEvents);
-  });
-  listEvents(authenticationGoogle);
+  var gci: GoogleCalendarIntegration = new GoogleCalendarIntegration();
+  console.log("1");
+  await gci.init();
+  console.log("2");
+  gci.listEvents();
 });
+
+var authorizeFun = () => {
+  return new Promise<void>((resolve, reject): void => {
+    fs.readFile(CREDENTIALS_PATH, (err: any, content: string) => {
+      if (err) return console.log("Error loading client secret file:", err);
+      authorize(JSON.parse(content), resolve);
+    });
+    
+  });
+};
 
 function startServer() {
   setInterval(() => {
@@ -50,12 +61,7 @@ const CREDENTIALS_PATH = path.resolve(
   "./credentials/googleCloud.json"
 );
 
-// Load client secrets from a local file.
-fs.readFile(CREDENTIALS_PATH, (err: any, content: string) => {
-  if (err) return console.log("Error loading client secret file:", err);
-  // Authorize a client with credentials, then call the Google Calendar API.
-  authorize(JSON.parse(content), listEvents);
-});
+
 
 /**
  * Create an OAuth2 client with the given credentials, and then execute the
@@ -67,7 +73,7 @@ function authorize(
   credentials: {
     installed: { client_secret: any; client_id: any; redirect_uris: any };
   },
-  callback: { (auth: any): void; (arg0: any): void }
+  callback: { (auth: any): void; (): void }
 ) {
   const { client_secret, client_id, redirect_uris } = credentials.installed;
   const oAuth2Client = new google.auth.OAuth2(
@@ -81,7 +87,7 @@ function authorize(
     if (err) return getAccessToken(oAuth2Client, callback);
     oAuth2Client.setCredentials(JSON.parse(token));
     authenticationGoogle = oAuth2Client;
-    callback(oAuth2Client);
+    callback();
   });
 }
 
@@ -97,7 +103,7 @@ function getAccessToken(
     getToken: (arg0: any, arg1: (err: any, token: any) => void) => void;
     setCredentials: (arg0: any) => void;
   },
-  callback: (arg0: any) => void
+  callback: () => void
 ) {
   const authUrl = oAuth2Client.generateAuthUrl({
     access_type: "offline",
@@ -119,7 +125,7 @@ function getAccessToken(
         console.log("Token stored to", TOKEN_PATH);
       });
       authenticationGoogle = oAuth2Client;
-      callback(oAuth2Client);
+      callback();
     });
   });
 }
@@ -158,3 +164,5 @@ function listEvents(auth: any) {
     }
   );
 }
+
+
