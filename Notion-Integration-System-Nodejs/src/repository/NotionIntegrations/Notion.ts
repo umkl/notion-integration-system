@@ -1,6 +1,7 @@
 const { Client, isNotionClientError } = require("@notionhq/client");
 const dotenv = require("dotenv").config();
 
+import { pagespeedonline } from "googleapis/build/src/apis/pagespeedonline";
 import { RepositoryInterface } from "../RepositoryInterface";
 
 let notionCredentials = require("./../../credentials/notion.json");
@@ -30,7 +31,7 @@ export class NotionIntegration implements RepositoryInterface {
     const { results } = await this.notionClient.request(payload);
     await results.map((page: any) => {
       ActionList.push(page);
-      console.log(page.properties.Creation);
+      console.log(page);
     });
     // console.log(ActionList);
   };
@@ -61,9 +62,18 @@ export class NotionIntegration implements RepositoryInterface {
     // const {results} = await this.notionClient.reqest(payload);
   };
 
-  updateAction = async (page: { name: any }) => {};
+  updateAction = async (pageId: string) => {
+    await this.notionClient.pages.update({
+      page_id: 'fasjdf'
+    })
+  };
 
-  deleteAction = async (page: { name: any }) => {};
+  deleteAction = async (pageId: string) => {
+    await this.notionClient.pages.update({
+      page_id: pageId,
+      archived:true
+    })
+  };
 
   store = async () => {
     const payload = {

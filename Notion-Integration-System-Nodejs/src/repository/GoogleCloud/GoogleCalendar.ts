@@ -106,4 +106,50 @@ export class GoogleCalendarIntegration implements RepositoryInterface {
       }
     );
   };
+
+  addEvent = () =>{
+    const calendar = google.calendar({
+      version: "v3",
+      auth: this.oAuth2Client,
+    });
+      calendar.events.insert({
+        auth: this.oAuth2Client,
+        calendarId: 'primary',
+        resource:{
+          'summary':'loisl event',
+          'description':'Sample event description',
+          'start':{
+            'dateTime':'2021-08-08T06:00:00.000Z',
+            'timeZone':'utc'
+          },
+          'end':{
+            'dateTime':'2021-08-08T07:00:00.000Z',
+            'timeZone':'utc'
+          },
+          'attendees':[],
+          'reminders':{
+            'useDefault':false,
+            'overrides':[
+              {'method':'email','minutes':24*60},
+              {'method':'popup','minutes':10}
+            ],
+          },
+          'colorId':4,
+          'sendUpdates':'all',
+          'status':'confirmed'
+        }
+      },(err: any,res: { data: any; })=>{
+        if(err){
+          console.log(err);
+        }else{
+          console.log(res.data)
+        }
+      });
+    
+  }
+
+  removeEvent = () => {
+
+  }
+
 }

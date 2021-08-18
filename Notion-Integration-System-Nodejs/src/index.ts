@@ -24,7 +24,9 @@ app.listen(port, async () => {
   // console.log("ok");
   ni = new NotionIntegration();
   gci = new GoogleCalendarIntegration();
-  ni.listActions();
+  // ni.listActions();
+  await gci.init();
+  gci.addEvent();
   // var page = {
   //   name: "hello",
   // };
