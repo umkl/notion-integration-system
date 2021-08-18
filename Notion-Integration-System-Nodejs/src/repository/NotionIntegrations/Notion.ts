@@ -21,6 +21,7 @@ export class NotionIntegration implements RepositoryInterface {
   }
 
   listActions = async () => {
+    var ActionList: any[] = [];
     const payload = {
       path: `databases/${this.action_database_id}/query`,
       method: "POST",
@@ -28,16 +29,17 @@ export class NotionIntegration implements RepositoryInterface {
 
     const { results } = await this.notionClient.request(payload);
     await results.map((page: any) => {
-      this.data.push(page);
+      ActionList.push(page);
+      console.log(page.properties.Creation);
     });
-    console.log(this.data);
+    // console.log(ActionList);
   };
 
   listUsers = async () => {
     const listUserResponse = await this.notionClient.users.list();
   };
 
-  addAction = async (page: any) => {
+  addAction = async (page: { name: any }) => {
     await this.notionClient.pages.create({
       parent: {
         database_id: this.action_database_id,
@@ -47,7 +49,7 @@ export class NotionIntegration implements RepositoryInterface {
           title: [
             {
               text: {
-                content: "name",
+                content: page.name,
               },
             },
           ],
@@ -57,5 +59,20 @@ export class NotionIntegration implements RepositoryInterface {
     // this.notionClient.databases.query();
     // this.notionClient.request;
     // const {results} = await this.notionClient.reqest(payload);
+  };
+
+  updateAction = async (page: { name: any }) => {};
+
+  deleteAction = async (page: { name: any }) => {};
+
+  store = async () => {
+    const payload = {
+      path: `databases/${this.action_database_id}/query`,
+      method: "POST",
+    };
+    const { results } = await this.notionClient.request(payload);
+    await results.map((page: any) => {
+      this.data.push(page);
+    });
   };
 }

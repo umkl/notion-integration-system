@@ -12,20 +12,52 @@ app.get("/", (req: any, res: any) => {
   res.send("Hello world!");
 });
 
+var ni: NotionIntegration;
+var gci: GoogleCalendarIntegration;
+var cdata: any[];
+
 app.listen(port, async () => {
   // console.log("start");
   // await authorizeFun();
   // console.log("After exec.");
   // listEvents(authenticationGoogle);
   // console.log("ok");
-  // var ni: NotionIntegration = new NotionIntegration();
-  
-  var gci: GoogleCalendarIntegration = new GoogleCalendarIntegration();
-  console.log("1");
-  await gci.init();
-  console.log("2");
-  gci.listEvents();
+  ni = new NotionIntegration();
+  gci = new GoogleCalendarIntegration();
+  ni.listActions();
+  // var page = {
+  //   name: "hello",
+  // };
+  // ni.addAction(page);
+  // startServer();
+
+  // console.log("1");
+  // await gci.init();
+  // console.log("2");
+  // gci.listEvents();
 });
+
+function startServer() {
+  setInterval(() => {
+    ni.store();
+    var oldData = cdata;
+    var newData = ni.data;
+    var newEntries = extractDifferences(oldData, newData);
+  }, 60000);
+}
+
+function extractDifferences(berforeC: any[], afterC: any[]): any[] {
+  var sortedB: any[] = berforeC.sort();
+  var sortedA: any[] = afterC.sort();
+  if (sortedB.length >= sortedA.length) {
+    for (var i = 0; i < sortedB.length; i++) {
+      // if(sortedA[i] == sortedB[i]) 
+    }
+  } else {
+  }
+
+  return [];
+}
 
 // var authorizeFun = () => {
 //   return new Promise<void>((resolve, reject): void => {
@@ -33,15 +65,9 @@ app.listen(port, async () => {
 //       if (err) return console.log("Error loading client secret file:", err);
 //       authorize(JSON.parse(content), resolve);
 //     });
-    
+
 //   });
 // };
-
-// function startServer() {
-//   setInterval(() => {
-//     console.log("World!");
-//   }, 2000);
-// }
 
 // const fs = require("fs");
 // const readline = require("readline");
@@ -61,8 +87,6 @@ app.listen(port, async () => {
 //   __dirname,
 //   "./credentials/googleCloud.json"
 // );
-
-
 
 // /**
 //  * Create an OAuth2 client with the given credentials, and then execute the
@@ -165,5 +189,3 @@ app.listen(port, async () => {
 //     }
 //   );
 // }
-
-
