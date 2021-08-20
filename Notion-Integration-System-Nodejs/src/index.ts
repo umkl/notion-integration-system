@@ -15,6 +15,7 @@ app.get("/", (req: any, res: any) => {
 var ni: NotionIntegration;
 var gci: GoogleCalendarIntegration;
 var cdata: any[];
+var cGciEvents: any[];
 
 app.listen(port, async () => {
   // console.log("start");
@@ -23,10 +24,18 @@ app.listen(port, async () => {
   // listEvents(authenticationGoogle);
   // console.log("ok");
   ni = new NotionIntegration();
-  gci = new GoogleCalendarIntegration();
-  // ni.listActions();
-  await gci.init();
-  gci.addEvent();
+  // gci = new GoogleCalendarIntegration();
+  // ni.updateAction("seas");
+  // ni.deleteAction("ok");
+  ni.listActions();
+
+  
+  // await gci.init();
+  // gci.updateEvent("_65130ci56cqjcb9p6kojcb9k6osj8ba260rk6ba460sjici360ok4h1i68");
+  // gci.listEvents();
+  // cGciEvents = gci.listEvents
+
+  // gci.addEvent();
   // var page = {
   //   name: "hello",
   // };
@@ -53,7 +62,7 @@ function extractDifferences(berforeC: any[], afterC: any[]): any[] {
   var sortedA: any[] = afterC.sort();
   if (sortedB.length >= sortedA.length) {
     for (var i = 0; i < sortedB.length; i++) {
-      // if(sortedA[i] == sortedB[i]) 
+      // if(sortedA[i] == sortedB[i])
     }
   } else {
   }

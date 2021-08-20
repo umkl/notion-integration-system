@@ -81,7 +81,7 @@ export class GoogleCalendarIntegration implements RepositoryInterface {
     calendar.events.list(
       {
         calendarId: "primary",
-        timeMin: new Date().toISOString(),
+        timeMin: new Date(2021,5,5,10,10,10,10).toISOString(),
         maxResults: 10,
         singleEvents: true,
         orderBy: "startTime",
@@ -93,11 +93,12 @@ export class GoogleCalendarIntegration implements RepositoryInterface {
           console.log("Upcoming 10 events:");
           events.map(
             (
-              event: { start: { dateTime: any; date: any }; summary: any },
+              event: any,
               i: any
             ) => {
               const start = event.start.dateTime || event.start.date;
               console.log(`${start} - ${event.summary}`);
+              console.log(event.id);
             }
           );
         } else {
@@ -107,49 +108,103 @@ export class GoogleCalendarIntegration implements RepositoryInterface {
     );
   };
 
-  addEvent = () =>{
+  addEvent = () => {
     const calendar = google.calendar({
       version: "v3",
       auth: this.oAuth2Client,
     });
-      calendar.events.insert({
+
+    calendar.events.insert(
+      {
         auth: this.oAuth2Client,
-        calendarId: 'primary',
-        resource:{
-          'summary':'loisl event',
-          'description':'Sample event description',
-          'start':{
-            'dateTime':'2021-08-08T06:00:00.000Z',
-            'timeZone':'utc'
+        calendarId: "primary",
+        resource: {
+          summary: "loisl event",
+          description: "Sample event description",
+          start: {
+            dateTime: "2021-08-08T06:00:00.000Z",
+            timeZone: "utc",
           },
-          'end':{
-            'dateTime':'2021-08-08T07:00:00.000Z',
-            'timeZone':'utc'
+          end: {
+            dateTime: "2021-08-08T07:00:00.000Z",
+            timeZone: "utc",
           },
-          'attendees':[],
-          'reminders':{
-            'useDefault':false,
-            'overrides':[
-              {'method':'email','minutes':24*60},
-              {'method':'popup','minutes':10}
+          attendees: [],
+          reminders: {
+            useDefault: false,
+            overrides: [
+              { method: "email", minutes: 24 * 60 },
+              { method: "popup", minutes: 10 },
             ],
           },
-          'colorId':4,
-          'sendUpdates':'all',
-          'status':'confirmed'
-        }
-      },(err: any,res: { data: any; })=>{
-        if(err){
+          colorId: 4,
+          sendUpdates: "all",
+          status: "confirmed",
+        },
+      },
+      (err: any, res: { data: any }) => {
+        if (err) {
           console.log(err);
-        }else{
-          console.log(res.data)
+        } else {
+          console.log(res);
         }
-      });
-    
-  }
+      }
+    );
+  };
 
-  removeEvent = () => {
+  removeEvent = async (eventId: any) => {
+    const calendar = google.calendar({
+      version: "v3",
+      auth: this.oAuth2Client,
+    });
 
-  }
+    await calendar.events.delete(
+      {
+        auth: this.oAuth2Client,
+        eventId: eventId,
+        calendarId: "primary",
+      },
+      (err: any, res: { data: any }) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(res.data+ "event deleted!!!");
+        }
+      }
+    );
+  };
 
+  updateEvent = async (eventId:any) => {
+    const calendar = google.calendar({
+      version: "v3",
+      auth: this.oAuth2Client,
+    });
+
+    await calendar.events.update(
+      {
+        auth: this.oAuth2Client,
+        eventId: eventId,
+        calendarId: "primary",
+        resource:{
+          summary:"xtremeee loisl",
+          start: {
+            dateTime: "2021-08-08T06:00:00.000Z",
+            timeZone: "utc",
+          },
+          end: {
+            dateTime: "2021-08-08T07:00:00.000Z",
+            timeZone: "utc",
+          },
+          // "start": req.body.start_time,
+        }
+      }, 
+      (err: any, res: { data: any }) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(res.data);
+        }
+      }
+    );
+  };
 }

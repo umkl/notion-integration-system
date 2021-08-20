@@ -31,7 +31,8 @@ export class NotionIntegration implements RepositoryInterface {
     const { results } = await this.notionClient.request(payload);
     await results.map((page: any) => {
       ActionList.push(page);
-      console.log(page);
+      console.log(page.properties.Name.title[0].text.content);
+      console.log(page.id);
     });
     // console.log(ActionList);
   };
@@ -64,15 +65,26 @@ export class NotionIntegration implements RepositoryInterface {
 
   updateAction = async (pageId: string) => {
     await this.notionClient.pages.update({
-      page_id: 'fasjdf'
-    })
+      page_id: "80562bcf-295b-4fe8-977f-6dc80b69d3df",
+      properties: {
+        Name: {
+          title: [
+            {
+              text: {
+                content: "xxxtreme loisl",
+              },
+            },
+          ],
+        },
+      },
+    });
   };
 
   deleteAction = async (pageId: string) => {
     await this.notionClient.pages.update({
-      page_id: pageId,
-      archived:true
-    })
+      page_id: "80562bcf-295b-4fe8-977f-6dc80b69d3df",
+      archived: true,
+    });
   };
 
   store = async () => {
