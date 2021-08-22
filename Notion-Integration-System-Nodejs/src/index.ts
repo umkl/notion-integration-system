@@ -14,8 +14,15 @@ app.get("/", (req: any, res: any) => {
 
 var ni: NotionIntegration;
 var gci: GoogleCalendarIntegration;
-var cdata: any[];
-var cGciEvents: any[];
+
+// var cdata: any[];
+
+var nNotion: any[];
+var cNotion: any[];
+var idCNotion: any[];
+var cGoogleCalendar: any[];
+var cBuffer: any[];
+
 
 app.listen(port, async () => {
   // console.log("start");
@@ -24,12 +31,27 @@ app.listen(port, async () => {
   // listEvents(authenticationGoogle);
   // console.log("ok");
   ni = new NotionIntegration();
+
   // gci = new GoogleCalendarIntegration();
   // ni.updateAction("seas");
   // ni.deleteAction("ok");
-  ni.listActions();
-
   
+  // ni.listActions();
+
+  // cNotion = [];
+  cBuffer = [];
+  nNotion = await ni.getActions(); //imagine cNotion is 1 2 3 and now there came 1 2 3 4 in
+  for(var i = 0; i < nNotion.length; ++i){//checking appropriate pairs
+    if(idCNotion.includes(nNotion[i].id))//checking if the newNotion element does already exist
+    {
+        if(nNotion[i])
+    }else{
+      cBuffer.push(nNotion[i]);
+    }
+  }
+   
+
+  // cGoogleCalendar = await
   // await gci.init();
   // gci.updateEvent("_65130ci56cqjcb9p6kojcb9k6osj8ba260rk6ba460sjici360ok4h1i68");
   // gci.listEvents();
@@ -48,23 +70,41 @@ app.listen(port, async () => {
   // gci.listEvents();
 });
 
+function getCNotionById(id:string){
+  
+}
+
+function generateIdCNotion(){
+  idCNotion = [];
+  for(var i = 0; i < cNotion.length; ++i){
+    idCNotion.push(cNotion[i].id);  
+  }
+}
+
+
 function startServer() {
-  setInterval(() => {
-    ni.store();
-    var oldData = cdata;
-    var newData = ni.data;
-    var newEntries = extractDifferences(oldData, newData);
-  }, 60000);
+  // setInterval(() => {
+  //   ni.store();
+  //   // var oldData = cdata;
+  //   var newData = ni.data;
+  //   var newEntries = extractDifferences(oldData, newData);
+  // }, 60000);
 }
 
 function extractDifferences(berforeC: any[], afterC: any[]): any[] {
   var sortedB: any[] = berforeC.sort();
   var sortedA: any[] = afterC.sort();
+
   if (sortedB.length >= sortedA.length) {
+    for (var i = 0; i < sortedB.length; i++) {
+      if(sortedA[i] != sortedB[i]){
+        
+      }
+    }
+  } else {
     for (var i = 0; i < sortedB.length; i++) {
       // if(sortedA[i] == sortedB[i])
     }
-  } else {
   }
 
   return [];

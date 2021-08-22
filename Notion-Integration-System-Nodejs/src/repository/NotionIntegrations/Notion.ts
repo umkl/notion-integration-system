@@ -37,6 +37,19 @@ export class NotionIntegration implements RepositoryInterface {
     // console.log(ActionList);
   };
 
+  getActions = async (): Promise<any[]> => {
+    var ActionList: any[] = [];
+    const payload = {
+      path: `databases/${this.action_database_id}/query`,
+      method: "POST",
+    };
+    const { results } = await this.notionClient.request(payload);
+    await results.map((page: any) => {
+      ActionList.push(page);
+    });
+    return ActionList;
+  };
+
   listUsers = async () => {
     const listUserResponse = await this.notionClient.users.list();
   };
