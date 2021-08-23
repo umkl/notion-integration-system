@@ -1,4 +1,4 @@
-type Action = {
+export type Action = {
   Description: string;
   Name: string;
   Content: any;
@@ -12,8 +12,8 @@ type Action = {
       timeZone: "utc";
     };
     end: {
-      dateTime: String;
+      dateTime: String|undefined;
       timeZone: "utc";
     };
-  };
+  }|undefined;
 };

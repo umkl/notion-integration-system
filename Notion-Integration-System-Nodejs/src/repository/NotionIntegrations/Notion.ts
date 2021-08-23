@@ -5,6 +5,7 @@ import { pagespeedonline } from "googleapis/build/src/apis/pagespeedonline";
 import { RepositoryInterface } from "../RepositoryInterface";
 
 let notionCredentials = require("./../../credentials/notion.json");
+import { Action } from "./../../types/nis";
 
 export class NotionIntegration implements RepositoryInterface {
   constructor() {
@@ -31,8 +32,8 @@ export class NotionIntegration implements RepositoryInterface {
     const { results } = await this.notionClient.request(payload);
     await results.map((page: any) => {
       ActionList.push(page);
-      console.log(page.properties.Name.title[0].text.content);
-      console.log(page.id);
+      // console.log(page.properties.Date);
+      // console.log(page.properties.Name.title[0].text.content);
     });
     // console.log(ActionList);
   };
@@ -93,33 +94,23 @@ export class NotionIntegration implements RepositoryInterface {
     });
   };
 
-  transformInActions(notionElements: any[]):Action[]{
+  transformInActions(notionElements: any[]): Action[] {
     var actions: Action[] = [];
-    for(var i of notionElements){
-      var a:Action = {
+    for (var i of notionElements) {
+      var a: Action = {
+        Name: i.properties.Name.title[0].text.content,
         Description: "",
-        Name: "name hoid",
         Content: undefined,
         New: false,
-        NotionID: "",
+        NotionID: i.id,
         GoogleCalendarID: "",
-        Archived: false,
-        Date: {
-          start: {
-            dateTime: i.start,
-            timeZone: "utc"
-          },
-          end: {
-            dateTime: i.end,
-            timeZone: "utc"
-          }
-        }
-      }
+        Archived: i.archived,
+        Date:undefined,
+      };
       actions.push(a);
     }
     return actions;
   }
-  
 
   deleteAction = async (pageId: string) => {
     await this.notionClient.pages.update({

@@ -3,7 +3,7 @@ const app = express();
 const port = 4000;
 import { GoogleCalendarIntegration } from "./repository/GoogleCloud/GoogleCalendar";
 import { NotionIntegration } from "./repository/NotionIntegrations/Notion";
-
+import { Action } from "./types/nis";
 import path from "path";
 
 app.get("/", (req: any, res: any) => {
@@ -17,7 +17,7 @@ var gci: GoogleCalendarIntegration;
 
 // var cdata: any[];
 
-var nNotion: Action[];//set
+var nNotion: Action[]; //set
 var cNotion: Action[];
 var idCNotion: string[];
 var idCGoogleCalendar: string[];
@@ -26,23 +26,24 @@ var chBuffer: Action[];
 
 app.listen(port, async () => {
   await init();
-  extractChanges();
+  ni.listActions();
+  nNotion = ni.transformInActions(await ni.getActions()); //imagine cNotion is 1 2 3 and now there came 1 2 3 4 in
+  // extractChanges();
 });
 
 async function init() {
   ni = new NotionIntegration();
   chBuffer = [];
   nNotion = [];
-  nNotion = ni.transformInActions(await ni.getActions()); //imagine cNotion is 1 2 3 and now there came 1 2 3 4 in
+  cNotion = [];  
+  generateIdCNotion();
 }
-
 
 function extractChanges() {
   for (var i = 0; i < nNotion.length; ++i) {
-    //checking appropriate pairs
+
     if (idCNotion.includes(nNotion[i].NotionID)) {
       if (nNotion[i] != getCNotionById(nNotion[i].NotionID)) {
-        //are they the same?
         chBuffer.push(nNotion[i]);
       }
       for (let x = 0; x < idCNotion.length; ++x) {

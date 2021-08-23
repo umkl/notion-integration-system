@@ -3,6 +3,7 @@ const readline = require("readline");
 const { google } = require("googleapis");
 const path = require("path");
 import { RepositoryInterface } from "./../RepositoryInterface";
+import { Action } from "./../../types/nis";
 
 export class GoogleCalendarIntegration implements RepositoryInterface {
   SCOPES: string[];
@@ -150,8 +151,8 @@ export class GoogleCalendarIntegration implements RepositoryInterface {
         resource: {
           summary: event.Name,
           description: event.Description,
-          start: event.Date.start,
-          end: event.Date.end, 
+          start: event.Date!=undefined?event.Date.start:undefined,
+          end: event.Date!=undefined?event.Date.end!=undefined?event.Date.end:undefined:undefined, 
           attendees: [],
           reminders: {
             useDefault: false,
