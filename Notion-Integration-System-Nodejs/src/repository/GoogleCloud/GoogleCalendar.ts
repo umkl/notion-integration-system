@@ -108,7 +108,14 @@ export class GoogleCalendarIntegration implements RepositoryInterface {
     );
   };
 
-  addEvent = () => {
+  transformInActions(elements: any[]){
+    for(let i in elements){
+      
+    }
+  }
+
+
+  addEvent = (event: Action) => {
     const calendar = google.calendar({
       version: "v3",
       auth: this.oAuth2Client,
@@ -119,8 +126,8 @@ export class GoogleCalendarIntegration implements RepositoryInterface {
         auth: this.oAuth2Client,
         calendarId: "primary",
         resource: {
-          summary: "loisl event",
-          description: "Sample event description",
+          summary: event.Name,
+          description: event.Description,
           start: {
             dateTime: "2021-08-08T06:00:00.000Z",
             timeZone: "utc",

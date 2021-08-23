@@ -1,9 +1,9 @@
-type Action{
+type Action = {
+    Description: string;
     Name: string;
-    Content: string;
+    Content: any;
     New: Boolean;
     NotionID: string;
     GoogleID: string;
-    Archived: Boolean;
-
+    Archived: Boolean; 
 }

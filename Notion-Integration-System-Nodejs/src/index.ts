@@ -21,8 +21,8 @@ var nNotion: any[];
 var cNotion: any[];
 var idCNotion: any[];
 var cGoogleCalendar: any[];
-var cBuffer: any[];
-
+var idCGoogleCalendar: any[];
+var chBuffer: any[];
 
 app.listen(port, async () => {
   // console.log("start");
@@ -35,21 +35,32 @@ app.listen(port, async () => {
   // gci = new GoogleCalendarIntegration();
   // ni.updateAction("seas");
   // ni.deleteAction("ok");
-  
-  // ni.listActions();
 
+  // ni.listActions();
   // cNotion = [];
-  cBuffer = [];
+
+  chBuffer = [];
   nNotion = await ni.getActions(); //imagine cNotion is 1 2 3 and now there came 1 2 3 4 in
-  for(var i = 0; i < nNotion.length; ++i){//checking appropriate pairs
-    if(idCNotion.includes(nNotion[i].id))//checking if the newNotion element does already exist
-    {
-        if(nNotion[i])
-    }else{
-      cBuffer.push(nNotion[i]);
+  for (var i = 0; i < nNotion.length; ++i) {
+    //checking appropriate pairs
+    if (idCNotion.includes(nNotion[i].id)) {
+      //checking if the newNotion element does already exist
+      if (nNotion[i] != getCNotionById(nNotion[i].id)) {
+        //checking if the entry was manipulated
+        chBuffer.push(nNotion[i]);
+      }
+      for (let x = 0; x < idCNotion.length; ++x) {
+        if (x == nNotion[i].id) {
+          delete idCNotion[x];
+        }
+      }
+    } else {
+      chBuffer.push(nNotion[i]);
     }
   }
-   
+
+  //changebuffer contains all the manipulation and creation of elements
+  //idCNotion contains all the ids of deleted elements
 
   // cGoogleCalendar = await
   // await gci.init();
@@ -70,17 +81,40 @@ app.listen(port, async () => {
   // gci.listEvents();
 });
 
-function getCNotionById(id:string){
-  
-}
-
-function generateIdCNotion(){
-  idCNotion = [];
-  for(var i = 0; i < cNotion.length; ++i){
-    idCNotion.push(cNotion[i].id);  
+function applyNotionToGoogleCalendar() {
+  generateIdCGoogleCalendar();
+  for (let i = 0; i < chBuffer.length; ++i) {
+    if (idCGoogleCalendar.includes(chBuffer[i].id)) {
+      
+    }else{
+      gci.addEvent(chBuffer[i]);
+    }
   }
 }
 
+function getCNotionById(id: string) {}
+
+function getCGoogleCalendarById(id: string) {
+
+}
+
+function generateIdCNotion() {
+  idCNotion = [];
+  for (var i = 0; i < cNotion.length; ++i) {
+    idCNotion.push(cNotion[i].id);
+  }
+}
+
+function generateIdCGoogleCalendar() {
+  idCGoogleCalendar = [];
+  for (var i = 0; i < cGoogleCalendar.length; ++i) {
+    idCGoogleCalendar.push(cGoogleCalendar[i].id);
+  }
+}
+
+function removeLeftoverCNotion() {}
+
+// function
 
 function startServer() {
   // setInterval(() => {
@@ -97,8 +131,7 @@ function extractDifferences(berforeC: any[], afterC: any[]): any[] {
 
   if (sortedB.length >= sortedA.length) {
     for (var i = 0; i < sortedB.length; i++) {
-      if(sortedA[i] != sortedB[i]){
-        
+      if (sortedA[i] != sortedB[i]) {
       }
     }
   } else {
