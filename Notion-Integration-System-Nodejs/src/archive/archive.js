@@ -40,3 +40,40 @@
 
 
 
+
+  //changebuffer contains all the manipulation and creation of elements
+  //idCNotion contains all the ids of deleted elements
+
+  // cGoogleCalendar = await
+  // await gci.init();
+  // gci.updateEvent("_65130ci56cqjcb9p6kojcb9k6osj8ba260rk6ba460sjici360ok4h1i68");
+  // gci.listEvents();
+  // cGciEvents = gci.listEvents
+
+  // gci.addEvent();
+  // var page = {
+  //   name: "hello",
+  // };
+  // ni.addAction(page);
+  // startServer();
+
+  // console.log("1");
+  // await gci.init();
+  // console.log("2");
+  // gci.listEvents();
+
+
+
+  // gci = new GoogleCalendarIntegration();
+  // ni.updateAction("seas");
+  // ni.deleteAction("ok");
+
+  // ni.listActions();
+  // cNotion = [];
+
+
+    // console.log("start");
+  // await authorizeFun();
+  // console.log("After exec.");
+  // listEvents(authenticationGoogle);
+  // console.log("ok");

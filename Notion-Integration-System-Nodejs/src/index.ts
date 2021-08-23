@@ -17,40 +17,36 @@ var gci: GoogleCalendarIntegration;
 
 // var cdata: any[];
 
-var nNotion: any[];
-var cNotion: any[];
-var idCNotion: any[];
-var cGoogleCalendar: any[];
-var idCGoogleCalendar: any[];
-var chBuffer: any[];
+var nNotion: Action[];//set
+var cNotion: Action[];
+var idCNotion: string[];
+var idCGoogleCalendar: string[];
+var cGoogleCalendar: Action[];
+var chBuffer: Action[];
 
 app.listen(port, async () => {
-  // console.log("start");
-  // await authorizeFun();
-  // console.log("After exec.");
-  // listEvents(authenticationGoogle);
-  // console.log("ok");
+  await init();
+  extractChanges();
+});
+
+async function init() {
   ni = new NotionIntegration();
-
-  // gci = new GoogleCalendarIntegration();
-  // ni.updateAction("seas");
-  // ni.deleteAction("ok");
-
-  // ni.listActions();
-  // cNotion = [];
-
   chBuffer = [];
-  nNotion = await ni.getActions(); //imagine cNotion is 1 2 3 and now there came 1 2 3 4 in
+  nNotion = [];
+  nNotion = ni.transformInActions(await ni.getActions()); //imagine cNotion is 1 2 3 and now there came 1 2 3 4 in
+}
+
+
+function extractChanges() {
   for (var i = 0; i < nNotion.length; ++i) {
     //checking appropriate pairs
-    if (idCNotion.includes(nNotion[i].id)) {
-      //checking if the newNotion element does already exist
-      if (nNotion[i] != getCNotionById(nNotion[i].id)) {
-        //checking if the entry was manipulated
+    if (idCNotion.includes(nNotion[i].NotionID)) {
+      if (nNotion[i] != getCNotionById(nNotion[i].NotionID)) {
+        //are they the same?
         chBuffer.push(nNotion[i]);
       }
       for (let x = 0; x < idCNotion.length; ++x) {
-        if (x == nNotion[i].id) {
+        if (idCNotion[x] == nNotion[i].NotionID) {
           delete idCNotion[x];
         }
       }
@@ -58,57 +54,45 @@ app.listen(port, async () => {
       chBuffer.push(nNotion[i]);
     }
   }
+}
 
-  //changebuffer contains all the manipulation and creation of elements
-  //idCNotion contains all the ids of deleted elements
-
-  // cGoogleCalendar = await
-  // await gci.init();
-  // gci.updateEvent("_65130ci56cqjcb9p6kojcb9k6osj8ba260rk6ba460sjici360ok4h1i68");
-  // gci.listEvents();
-  // cGciEvents = gci.listEvents
-
-  // gci.addEvent();
-  // var page = {
-  //   name: "hello",
-  // };
-  // ni.addAction(page);
-  // startServer();
-
-  // console.log("1");
-  // await gci.init();
-  // console.log("2");
-  // gci.listEvents();
-});
-
-function applyNotionToGoogleCalendar() {
+function applyNNotionToCGoogleCalendar() {
   generateIdCGoogleCalendar();
+  //checking cbuffer for updates and creations
   for (let i = 0; i < chBuffer.length; ++i) {
-    if (idCGoogleCalendar.includes(chBuffer[i].id)) {
-      
-    }else{
+    if (idCGoogleCalendar.includes(chBuffer[i].GoogleCalendarID)) {
+      // gci.updateEvent();
+      //this is a existing one
+    } else {
+      //this is a new one
       gci.addEvent(chBuffer[i]);
     }
   }
+  //checking left overs for deletion
 }
 
-function getCNotionById(id: string) {}
-
-function getCGoogleCalendarById(id: string) {
-
+function getCNotionById(id: string): Action | undefined {
+  for (let x = 0; x < cNotion.length; x++) {
+    if (id == cNotion[x].NotionID) {
+      return cNotion[x];
+    }
+  }
+  return undefined;
 }
+
+function getCGoogleCalendarById(id: string) {}
 
 function generateIdCNotion() {
   idCNotion = [];
   for (var i = 0; i < cNotion.length; ++i) {
-    idCNotion.push(cNotion[i].id);
+    idCNotion.push(cNotion[i].NotionID);
   }
 }
 
 function generateIdCGoogleCalendar() {
   idCGoogleCalendar = [];
   for (var i = 0; i < cGoogleCalendar.length; ++i) {
-    idCGoogleCalendar.push(cGoogleCalendar[i].id);
+    idCGoogleCalendar.push(cGoogleCalendar[i].GoogleCalendarID);
   }
 }
 

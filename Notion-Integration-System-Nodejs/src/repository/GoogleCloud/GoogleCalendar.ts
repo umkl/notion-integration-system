@@ -108,11 +108,33 @@ export class GoogleCalendarIntegration implements RepositoryInterface {
     );
   };
 
-  transformInActions(elements: any[]){
-    for(let i in elements){
-      
+  transformInActions(gcEvents: any[]):Action[]{
+    var actions: Action[] = [];
+    for(var i of gcEvents){
+      var a:Action = {
+        Description: "",
+        Name: i.summary,
+        Content: undefined,
+        New: false,
+        NotionID: "",
+        GoogleCalendarID: "",
+        Archived: false,
+        Date: {
+          start: {
+            dateTime: i.start,
+            timeZone: "utc"
+          },
+          end: {
+            dateTime: i.end,
+            timeZone: "utc"
+          }
+        }
+      }
+      actions.push(a);
     }
+    return actions;
   }
+   
 
 
   addEvent = (event: Action) => {
@@ -128,14 +150,8 @@ export class GoogleCalendarIntegration implements RepositoryInterface {
         resource: {
           summary: event.Name,
           description: event.Description,
-          start: {
-            dateTime: "2021-08-08T06:00:00.000Z",
-            timeZone: "utc",
-          },
-          end: {
-            dateTime: "2021-08-08T07:00:00.000Z",
-            timeZone: "utc",
-          },
+          start: event.Date.start,
+          end: event.Date.end, 
           attendees: [],
           reminders: {
             useDefault: false,

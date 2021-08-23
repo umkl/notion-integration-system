@@ -93,6 +93,34 @@ export class NotionIntegration implements RepositoryInterface {
     });
   };
 
+  transformInActions(notionElements: any[]):Action[]{
+    var actions: Action[] = [];
+    for(var i of notionElements){
+      var a:Action = {
+        Description: "",
+        Name: "name hoid",
+        Content: undefined,
+        New: false,
+        NotionID: "",
+        GoogleCalendarID: "",
+        Archived: false,
+        Date: {
+          start: {
+            dateTime: i.start,
+            timeZone: "utc"
+          },
+          end: {
+            dateTime: i.end,
+            timeZone: "utc"
+          }
+        }
+      }
+      actions.push(a);
+    }
+    return actions;
+  }
+  
+
   deleteAction = async (pageId: string) => {
     await this.notionClient.pages.update({
       page_id: "80562bcf-295b-4fe8-977f-6dc80b69d3df",
