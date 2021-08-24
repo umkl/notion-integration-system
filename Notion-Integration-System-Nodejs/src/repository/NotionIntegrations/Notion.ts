@@ -32,7 +32,7 @@ export class NotionIntegration implements RepositoryInterface {
     const { results } = await this.notionClient.request(payload);
     await results.map((page: any) => {
       ActionList.push(page);
-      // console.log(page.properties.Date);
+      console.log(page.properties.Date);
       // console.log(page.properties.Name.title[0].text.content);
     });
     // console.log(ActionList);
@@ -105,7 +105,16 @@ export class NotionIntegration implements RepositoryInterface {
         NotionID: i.id,
         GoogleCalendarID: "",
         Archived: i.archived,
-        Date:undefined,
+        Date:{
+          start:{
+            dateTime: i.properties.Date != undefined ? i.properties.Date.date.start: undefined,
+            timeZone: "utc"
+          },
+          end:{
+            dateTime: i.properties.Date != undefined ? i.properties.Date.date.end: undefined,
+            timeZone: "utc"
+          }
+        },
       };
       actions.push(a);
     }

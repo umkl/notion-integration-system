@@ -26,22 +26,37 @@ var chBuffer: Action[];
 
 app.listen(port, async () => {
   await init();
-  ni.listActions();
+  // ni.listActions();
   nNotion = ni.transformInActions(await ni.getActions()); //imagine cNotion is 1 2 3 and now there came 1 2 3 4 in
-  // extractChanges();
+  extractChanges();
+  startServer();
 });
 
 async function init() {
   ni = new NotionIntegration();
+  gci = new GoogleCalendarIntegration();
+  await gci.init();
   chBuffer = [];
   nNotion = [];
   cNotion = [];  
+  cGoogleCalendar = [];
+  generateIdCNotion();
+}
+
+async function updateSpreadLoopNotion(){
+  chBuffer = [];
+  nNotion = ni.transformInActions(await ni.getActions());
+  extractChanges(); 
+  applyNNotionToCGoogleCalendar();
+
+  //at the end
+  cNotion = nNotion;
+  chBuffer = [];
   generateIdCNotion();
 }
 
 function extractChanges() {
   for (var i = 0; i < nNotion.length; ++i) {
-
     if (idCNotion.includes(nNotion[i].NotionID)) {
       if (nNotion[i] != getCNotionById(nNotion[i].NotionID)) {
         chBuffer.push(nNotion[i]);
@@ -61,14 +76,19 @@ function applyNNotionToCGoogleCalendar() {
   generateIdCGoogleCalendar();
   //checking cbuffer for updates and creations
   for (let i = 0; i < chBuffer.length; ++i) {
+    if(chBuffer[i].Date == undefined){
+      console.log("ok");
+    }
     if (idCGoogleCalendar.includes(chBuffer[i].GoogleCalendarID)) {
-      // gci.updateEvent();
+      gci.updateEvent(chBuffer[i].GoogleCalendarID,chBuffer[i]);
       //this is a existing one
     } else {
       //this is a new one
       gci.addEvent(chBuffer[i]);
     }
+    
   }
+
   //checking left overs for deletion
 }
 
@@ -102,12 +122,9 @@ function removeLeftoverCNotion() {}
 // function
 
 function startServer() {
-  // setInterval(() => {
-  //   ni.store();
-  //   // var oldData = cdata;
-  //   var newData = ni.data;
-  //   var newEntries = extractDifferences(oldData, newData);
-  // }, 60000);
+  setInterval(() => {
+    updateSpreadLoopNotion();
+  }, 6000);
 }
 
 function extractDifferences(berforeC: any[], afterC: any[]): any[] {

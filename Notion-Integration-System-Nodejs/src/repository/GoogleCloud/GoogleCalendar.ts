@@ -198,7 +198,7 @@ export class GoogleCalendarIntegration implements RepositoryInterface {
     );
   };
 
-  updateEvent = async (eventId:any) => {
+  updateEvent = async (eventId:string, event:Action) => {
     const calendar = google.calendar({
       version: "v3",
       auth: this.oAuth2Client,

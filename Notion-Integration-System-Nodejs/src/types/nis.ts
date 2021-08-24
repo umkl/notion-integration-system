@@ -8,7 +8,7 @@ export type Action = {
   Archived: Boolean;
   Date: {
     start: {
-      dateTime: String; //"2021-08-08T06:00:00.000Z"
+      dateTime: String|undefined; //"2021-08-08T06:00:00.000Z"
       timeZone: "utc";
     };
     end: {
