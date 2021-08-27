@@ -105,18 +105,30 @@ export class NotionIntegration implements RepositoryInterface {
         NotionID: i.id,
         GoogleCalendarID: "",
         Archived: i.archived,
-        Date:{
-          start:{
-            dateTime: i.properties.Date != undefined ? i.properties.Date.date.start: undefined,
-            timeZone: "utc"
+        Date: {
+          start: {
+            dateTime:
+              i.properties.Date != undefined
+                ? i.properties.Date.date.start
+                : undefined,
+            timeZone: "utc",
           },
-          end:{
-            dateTime: i.properties.Date != undefined ? i.properties.Date.date.end: undefined,
-            timeZone: "utc"
-          }
+          end: {
+            dateTime:
+              i.properties.Date != undefined
+                ? i.properties.Date.date.end
+                : undefined,
+            timeZone: "utc",
+          },
         },
       };
-      actions.push(a);
+      if (
+        a.Date != undefined &&
+        a.Date.end.dateTime != undefined &&
+        a.Date.start.dateTime != undefined
+      ) {
+        actions.push(a);
+      }
     }
     return actions;
   }

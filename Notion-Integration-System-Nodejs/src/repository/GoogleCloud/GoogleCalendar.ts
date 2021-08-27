@@ -144,27 +144,35 @@ export class GoogleCalendarIntegration implements RepositoryInterface {
       auth: this.oAuth2Client,
     });
 
+    console.log(new Date(event.Date.start.dateTime).toISOString());
+    var endDate =  new Date(event.Date.end.dateTime==undefined?event.Date.start.dateTime:event.Date.end.dateTime)
+    if(event.Date.end.dateTime==undefined){
+      endDate.setHours(endDate.getHours()+1);
+    }
+
+    let tEvent = {
+      'summary': 'summary',
+      'description': 'description',
+      'start': {
+          'dateTime': new Date(event.Date.start.dateTime).toISOString(),     // Format: '2015-05-28T09:00:00-07:00'
+      },
+      'end': {
+        'dateTime': endDate.toISOString(),
+      },
+      'reminders': {
+          'useDefault': false,
+          'overrides': [
+              {'method': 'email', 'minutes': 24 * 60},
+              {'method': 'popup', 'minutes': 15},
+          ],
+      },
+    }
+
     calendar.events.insert(
       {
         auth: this.oAuth2Client,
         calendarId: "primary",
-        resource: {
-          summary: event.Name,
-          description: event.Description,
-          start: event.Date!=undefined?event.Date.start:undefined,
-          end: event.Date!=undefined?event.Date.end!=undefined?event.Date.end:undefined:undefined, 
-          attendees: [],
-          reminders: {
-            useDefault: false,
-            overrides: [
-              { method: "email", minutes: 24 * 60 },
-              { method: "popup", minutes: 10 },
-            ],
-          },
-          colorId: 4,
-          sendUpdates: "all",
-          status: "confirmed",
-        },
+        resource:tEvent 
       },
       (err: any, res: { data: any }) => {
         if (err) {
