@@ -8,76 +8,46 @@ import path from "path";
 const fs = require("fs");
 
 app.get("/", (req: any, res: any) => {
-  // var gci: GoogleCalendarIntegration = new GoogleCalendarIntegration();
-  // gci.listEvents;
   res.send("Hello world!");
 });
 
 var ni: NotionIntegration;
 var gci: GoogleCalendarIntegration;
 
-// var cdata: any[];
-
-var nNotion: Action[]; //set
+var nNotion: Action[];
 var cNotion: Action[];
 var idCNotion: string[];
 var idCGoogleCalendar: string[];
 var cGoogleCalendar: Action[];
-var chBuffer: Action[];
+var nGoogleCalendar: Action[];
+var notionChBuffer: Action[];
 
 app.listen(port, async () => {
   serverPreparation();
   startServer();
 });
 
-async function updateSpreadLoopNotion() {
-  chBuffer = [];
-  nNotion = ni.transformInActions(await ni.getActions());
-  extractChanges();
-  applyNNotionToCGoogleCalendar();
-
-  //at the end
-  cNotion = nNotion;
-  chBuffer = [];
-  generateIdCNotion();
-}
-
-function extractChanges() {
-  for (var i = 0; i < nNotion.length; ++i) {
-    if (idCNotion.includes(nNotion[i].NotionID)) {
-      if (nNotion[i] != getCNotionById(nNotion[i].NotionID)) {
-        chBuffer.push(nNotion[i]);
-      }
-      for (let x = 0; x < idCNotion.length; ++x) {
-        if (idCNotion[x] == nNotion[i].NotionID) {
-          delete idCNotion[x];
-        }
-      }
-    } else {
-      chBuffer.push(nNotion[i]);
-    }
-  }
-}
-
 function applyNNotionToCGoogleCalendar() {
   generateIdCGoogleCalendar();
   //checking cbuffer for updates and creations
-  for (let i = 0; i < chBuffer.length; ++i) {
-    if (idCGoogleCalendar.includes(chBuffer[i].GoogleCalendarID)) {
-      gci.updateEvent(chBuffer[i].GoogleCalendarID, chBuffer[i]);
+  for (let i = 0; i < notionChBuffer.length; ++i) {
+    if (idCGoogleCalendar.includes(notionChBuffer[i].GoogleCalendarID)) {
       //this is a existing one
+      gci.updateEvent(notionChBuffer[i].GoogleCalendarID, notionChBuffer[i]);
+      
     } else {
-      //this is a new one
-      gci.addEvent(chBuffer[i]);
+      cGoogleCalendar.push(notionChBuffer[i]);
+      cNotion[getCNotionIndexById(notionChBuffer[i].NotionID)].GoogleCalendarID = gci.addEvent(notionChBuffer[i]);
+      
     }
   }
   //checking left overs for deletion
 }
 
-function getCNotionById(id: string): Action | undefined {
+function getCNotionIndexById(id: string): any {
   for (let x = 0; x < cNotion.length; x++) {
     if (id == cNotion[x].NotionID) {
-      return cNotion[x];
+      return x;
     }
   }
   return undefined;
@@ -87,7 +57,7 @@ function getCGoogleCalendarById(id: string) {}
 
 function generateIdCNotion() {
   idCNotion = [];
-  for (var i = 0; i < cNotion.length; ++i) {
+  for (var i = 0; i < ((cNotion == undefined)? 0:cNotion.length); ++i) {
     idCNotion.push(cNotion[i].NotionID);
   }
 }
@@ -105,54 +75,58 @@ async function init() {
   ni = new NotionIntegration();
   gci = new GoogleCalendarIntegration();
   await gci.init();
-  chBuffer = [];
-  nNotion = [];
+  
+  notionChBuffer = [];
   cGoogleCalendar = [];
+  nGoogleCalendar =[];
   cNotion = [];
+  nNotion = [];
+
   initCNotion();
+  initCGoogleCalendar();
+
   generateIdCNotion();
-}
-
-function initCNotion() {
-  fs.readFile(
-    path.resolve(__dirname, "./database/notion.json"),
-    "utf8",
-    (err: any, jsonString: any) => {
-      if (err) {
-        console.log("File read failed", err);
-        return;
-      }
-      cNotion = JSON.parse(jsonString);
-    }
-  );
-}
-
-function updateCJSONData(list: Action[]) {
-  const jsonString = JSON.stringify(list);
-  fs.writeFile(
-    path.resolve(__dirname, "./database/notion.json"),
-    jsonString,
-    (err: any) => {
-      if (err) {
-        console.log("Error!!");
-      } else {
-        console.log("succ");
-      }
-    }
-  );
+  generateIdCGoogleCalendar();
 }
 
 async function serverPreparation() {
-  // ni.listActions();
   await init();
-  nNotion = ni.transformInActions(await ni.getActions()); //imagine cNotion is 1 2 3 and now there came 1 2 3 4 in
-  extractChanges();
 }
 
 function startServer() {
+  nicLoop();
   setInterval(() => {
-    updateSpreadLoopNotion();
-  }, 6000);
+    nicLoop();
+  }, 60000);
+}
+
+async function nicLoop() {
+  
+  generateIdCNotion();//generate new check up ids
+  notionChBuffer = []; //removing the previous changes
+  nNotion = ni.transformInActions(await ni.getActions()); //getting the new Notion status
+  extractNotionChanges(); //getting the changes(comparing with old status), left over ids are all ids of unknown elements
+  applyNNotionToCGoogleCalendar(); //applying all new things to google calendar
+  updateCNotionJSONData();//writing it into json
+  updateCGoogleCalendarJSONData(); 
+}
+
+function extractNotionChanges() {
+  for (var i = 0; i < nNotion.length; ++i) {
+    if (idCNotion.includes(nNotion[i].NotionID)) {
+      if (getCNotionIndexById(nNotion[i].NotionID) != undefined && nNotion[i] != cNotion[getCNotionIndexById(nNotion[i].NotionID)]) {
+        notionChBuffer.push(nNotion[i]);
+      }
+      for (let x = 0; x < idCNotion.length; ++x) {
+        if (idCNotion[x] == nNotion[i].NotionID) {
+          delete idCNotion[x];
+        }
+      }
+    } else {
+      notionChBuffer.push(nNotion[i]);
+    }
+  }
+  cNotion = nNotion;
 }
 
 function extractDifferences(berforeC: any[], afterC: any[]): any[] {
@@ -170,6 +144,64 @@ function extractDifferences(berforeC: any[], afterC: any[]): any[] {
   }
 
   return [];
+}
+
+function initCNotion() {
+  fs.readFile(
+    path.resolve(__dirname, "./database/notion.json"),
+    "utf8",
+    (err: any, jsonString: any) => {
+      if (err) {
+        console.log("File read failed", err);
+        return;
+      }
+      cNotion = JSON.parse(jsonString);
+    }
+  );
+}
+
+function initCGoogleCalendar() {
+  fs.readFile(
+    path.resolve(__dirname, "./database/googleCalendar.json"),
+    "utf8",
+    (err: any, jsonString: any) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      cGoogleCalendar = JSON.parse(jsonString);
+    }
+  );
+}
+
+function updateCNotionJSONData() {
+  const jsonString = JSON.stringify(cNotion==undefined?{}:cNotion);
+  fs.writeFile(
+    path.resolve(__dirname, "./database/notion.json"),
+    jsonString,
+    (err: any) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("success");
+      }
+    }
+  );
+}
+
+function updateCGoogleCalendarJSONData() {
+  const jsonString = JSON.stringify(cGoogleCalendar==undefined?{}:cGoogleCalendar);
+  fs.writeFile(
+    path.resolve(__dirname, "./database/googlecalendar.json"),
+    jsonString,
+    (err: any) => {
+      if (err) {
+        console.log("Error!!");
+      } else {
+        console.log("succ google");
+      }
+    }
+  );
 }
 
 // var authorizeFun = () => {

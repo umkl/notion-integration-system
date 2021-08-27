@@ -99,7 +99,7 @@ export class GoogleCalendarIntegration implements RepositoryInterface {
             ) => {
               const start = event.start.dateTime || event.start.date;
               console.log(`${start} - ${event.summary}`);
-              console.log(event.id);
+              console.log(event);
             }
           );
         } else {
@@ -138,7 +138,7 @@ export class GoogleCalendarIntegration implements RepositoryInterface {
    
 
 
-  addEvent = (event: Action) => {
+  addEvent = (event: Action): string => {
     const calendar = google.calendar({
       version: "v3",
       auth: this.oAuth2Client,
@@ -151,8 +151,8 @@ export class GoogleCalendarIntegration implements RepositoryInterface {
     }
 
     let tEvent = {
-      'summary': 'summary',
-      'description': 'description',
+      'summary': event.Name,
+      'description': event.Description,
       'start': {
           'dateTime': new Date(event.Date.start.dateTime).toISOString(),     // Format: '2015-05-28T09:00:00-07:00'
       },
@@ -174,14 +174,16 @@ export class GoogleCalendarIntegration implements RepositoryInterface {
         calendarId: "primary",
         resource:tEvent 
       },
-      (err: any, res: { data: any }) => {
+      (err: any, res: any) => {
         if (err) {
           console.log(err);
         } else {
           console.log(res);
+          return res.id;
         }
       }
     );
+    return "";
   };
 
   removeEvent = async (eventId: any) => {
