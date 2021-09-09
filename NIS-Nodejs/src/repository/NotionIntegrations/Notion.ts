@@ -22,6 +22,10 @@ export class NotionIntegration implements RepositoryInterface {
     });
   }
 
+  listUsers = async () => {
+    const listUserResponse = await this.notionClient.users.list();
+  };
+
   getEntries = async (database_id: string) => {
     var EntryList: any[];
     const payload = {
@@ -32,7 +36,31 @@ export class NotionIntegration implements RepositoryInterface {
     return payload;
   };
 
-  
+  addEntry = async (page: any) => {
+    await this.notionClient.pages.create({
+      parent: {
+        database_id: this.action_database_id,
+      },
+      properties: {
+        Name: {
+          title: [
+            {
+              text: {
+                content: page.name,
+              },
+            },
+          ],
+        },
+      },
+    });
+  };
+
+  deleteEntry = async (pageId: string) => {
+    await this.notionClient.pages.update({
+      page_id: "80562bcf-295b-4fe8-977f-6dc80b69d3df",
+      archived: true,
+    });
+  };
 
   listActions = async () => {
     var ActionList: any[] = [];
@@ -45,9 +73,7 @@ export class NotionIntegration implements RepositoryInterface {
     await results.map((page: any) => {
       ActionList.push(page);
       console.log(page.properties.Date);
-      // console.log(page.properties.Name.title[0].text.content);
     });
-    // console.log(ActionList);
   };
 
   getActions = async (): Promise<any[]> => {
@@ -61,10 +87,6 @@ export class NotionIntegration implements RepositoryInterface {
       ActionList.push(page);
     });
     return ActionList;
-  };
-
-  listUsers = async () => {
-    const listUserResponse = await this.notionClient.users.list();
   };
 
   addAction = async (page: { name: any }) => {
@@ -106,44 +128,44 @@ export class NotionIntegration implements RepositoryInterface {
     });
   };
 
-  transformInActions(notionElements: any[]): Action[] {
-    var actions: Action[] = [];
-    for (var i of notionElements) {
-      var a: Action = {
-        Name: i.properties.Name.title[0].text.content,
-        Description: "",
-        Content: undefined,
-        New: false,
-        NotionID: i.id,
-        GoogleCalendarID: "",
-        Archived: i.archived,
-        Date: {
-          start: {
-            dateTime:
-              i.properties.Date != undefined
-                ? i.properties.Date.date.start
-                : undefined,
-            timeZone: "utc",
-          },
-          end: {
-            dateTime:
-              i.properties.Date != undefined
-                ? i.properties.Date.date.end
-                : undefined,
-            timeZone: "utc",
-          },
-        },
-      };
-      if (
-        a.Date != undefined &&
-        a.Date.end.dateTime != undefined &&
-        a.Date.start.dateTime != undefined
-      ) {
-        actions.push(a);
-      }
-    }
-    return actions;
-  }
+  // transformInActions(notionElements: any[]): Action[] {
+  //   var actions: Action[] = [];
+  //   for (var i of notionElements) {
+  //     var a: Action = {
+  //       Name: i.properties.Name.title[0].text.content,
+  //       Description: "",
+  //       Content: undefined,
+  //       New: false,
+  //       NotionID: i.id,
+  //       GoogleCalendarID: "",
+  //       Archived: i.archived,
+  //       Date: {
+  //         start: {
+  //           dateTime:
+  //             i.properties.Date != undefined
+  //               ? i.properties.Date.date.start
+  //               : undefined,
+  //           timeZone: "utc",
+  //         },
+  //         end: {
+  //           dateTime:
+  //             i.properties.Date != undefined
+  //               ? i.properties.Date.date.end
+  //               : undefined,
+  //           timeZone: "utc",
+  //         },
+  //       },
+  //     };
+  //     if (
+  //       a.Date != undefined &&
+  //       a.Date.end.dateTime != undefined &&
+  //       a.Date.start.dateTime != undefined
+  //     ) {
+  //       actions.push(a);
+  //     }
+  //   }
+  //   return actions;
+  // }
 
   deleteAction = async (pageId: string) => {
     await this.notionClient.pages.update({

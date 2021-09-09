@@ -3,7 +3,6 @@ const readline = require("readline");
 const { google } = require("googleapis");
 const path = require("path");
 import { RepositoryInterface } from "./../RepositoryInterface";
-import { Action } from "../../interfaces/types/nis";
 
 export class GoogleCalendarIntegration implements RepositoryInterface {
   SCOPES: string[];
