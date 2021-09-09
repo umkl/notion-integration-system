@@ -1,19 +1,19 @@
-const express = require("express");
-const app = express();
-const port = 4000;
+//IMPORTS 
 import { GoogleCalendarIntegration } from "./repository/GoogleCloud/GoogleCalendar";
 import { NotionIntegration } from "./repository/NotionIntegrations/Notion";
-import { Action } from "./types/nis";
+// import { Action } from "./types/nis";
 import path from "path";
+
 const fs = require("fs");
+const express = require("express");
 
-// app.get("/", (req: any, res: any) => {
-//   res.send("Hello world!");
-// });
+//CONTSTANTS
+const app = express();
+const port = 4000;
 
+//declaring variables
 var ni: NotionIntegration;
 var gci: GoogleCalendarIntegration;
-
 var nNotion: Action[];
 var cNotion: Action[];
 var idCNotion: string[];
@@ -21,6 +21,7 @@ var idCGoogleCalendar: string[];
 var cGoogleCalendar: Action[];
 var nGoogleCalendar: Action[];
 var notionChBuffer: Action[];
+
 
 serverPreparation();
 startServer();

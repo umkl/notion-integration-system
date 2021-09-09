@@ -1,11 +1,8 @@
 const { Client, isNotionClientError } = require("@notionhq/client");
 const dotenv = require("dotenv").config();
-
 import { pagespeedonline } from "googleapis/build/src/apis/pagespeedonline";
 import { RepositoryInterface } from "../RepositoryInterface";
-
 let notionCredentials = require("./../../credentials/notion.json");
-import { Action } from "./../../types/nis";
 
 export class NotionIntegration implements RepositoryInterface {
   constructor() {
