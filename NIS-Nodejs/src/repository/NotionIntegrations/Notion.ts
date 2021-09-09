@@ -1,23 +1,38 @@
-const { Client, isNotionClientError } = require("@notionhq/client");
-const dotenv = require("dotenv").config();
 import { pagespeedonline } from "googleapis/build/src/apis/pagespeedonline";
 import { RepositoryInterface } from "../RepositoryInterface";
-let notionCredentials = require("./../../credentials/notion.json");
+
+const dotenv = require("dotenv").config();
+const { Client, isNotionClientError } = require("@notionhq/client");
+
+let notionCredentials = require("./../../credentials/notion/notion.json");
 
 export class NotionIntegration implements RepositoryInterface {
+  data: any[] = [];
+  accessId: string = notionCredentials.notion_access_token;
+  action_database_id: string = notionCredentials.notion_action_database_id;
+  notionClient: any;
+
   constructor() {
     this.init();
   }
 
-  data: any[] = [];
-  notionClient: any;
-  accessId: string = notionCredentials.notion_access_token;
-  action_database_id: string = notionCredentials.notion_action_database_id;
   init(): void {
     this.notionClient = new Client({
       auth: this.accessId,
     });
   }
+
+  getEntries = async (database_id: string) => {
+    var EntryList: any[];
+    const payload = {
+      path: `databases/${database_id}/query`,
+      method: "POST",
+    };
+    const { results } = await this.notionClient.request(payload);
+    return payload;
+  };
+
+  
 
   listActions = async () => {
     var ActionList: any[] = [];
