@@ -33,6 +33,15 @@ startServer();
 
 // console.log("hello")
 
+function main() {
+  
+}
+
+main();
+
+
+
+
 function applyNNotionToCGoogleCalendar() {
   generateIdCGoogleCalendar();
   //checking cbuffer for updates and creations
@@ -152,33 +161,8 @@ function extractDifferences(berforeC: any[], afterC: any[]): any[] {
   return [];
 }
 
-function initCNotion() {
-  fs.readFile(
-    path.resolve(__dirname, "./database/notion.json"),
-    "utf8",
-    (err: any, jsonString: any) => {
-      if (err) {
-        console.log("File read failed", err);
-        return;
-      }
-      cNotion = JSON.parse(jsonString);
-    }
-  );
-}
 
-function initCGoogleCalendar() {
-  fs.readFile(
-    path.resolve(__dirname, "./database/googleCalendar.json"),
-    "utf8",
-    (err: any, jsonString: any) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
-      cGoogleCalendar = JSON.parse(jsonString);
-    }
-  );
-}
+
 
 async function updateCNotionJSONData() {
   const jsonString = JSON.stringify(cNotion==undefined?[]:cNotion);
@@ -205,5 +189,3 @@ function updateCGoogleCalendarJSONData() {
     'utf8'
   );
 }
-
-
