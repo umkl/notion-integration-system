@@ -1,111 +1,86 @@
-//IMPORTS
-import { GoogleCalendarIntegration } from "./repository/GoogleCloud/GoogleCalendar";
-import { NotionIntegration } from "./repository/NotionIntegrations/Notion";
-// import { Action } from "./types/nis";
-import path from "path";
+// //IMPORTS
+// import { GoogleCalendarIntegration } from "./repository/GoogleCloud/GoogleCalendar";
+// import { NotionIntegration } from "./repository/NotionIntegrations/NotionIntegration";
+// // import { Action } from "./types/nis";
+// import path from "path";
 
-const fs = require("fs");
-const express = require("express");
+// const fs = require("fs");
+// const express = require("express");
 
-//CONTSTANTS
-const app = express();
-const port = 4000;
+// //CONTSTANTS
+// const app = express();
+// const port = 4000;
 
-//declaring variables
-// var ni: NotionIntegration;
-// var gci: GoogleCalendarIntegration;
-// var nNotion: Action[];
-// var cNotion: Action[];
-// var idCNotion: string[];
-// var idCGoogleCalendar: string[];
-// var cGoogleCalendar: Action[];
-// var nGoogleCalendar: Action[];
-// var notionChBuffer: Action[];
+// //declaring variables
+// // var ni: NotionIntegration;
+// // var gci: GoogleCalendarIntegration;
+// // var nNotion: Action[];
+// // var cNotion: Action[];
+// // var idCNotion: string[];
+// // var idCGoogleCalendar: string[];
+// // var cGoogleCalendar: Action[];
+// // var nGoogleCalendar: Action[];
+// // var notionChBuffer: Action[];
 
-serverPreparation();
-startServer();
-
-// app.listen(port, async () => {
 // serverPreparation();
 // startServer();
-// });a
 
-// console.log("hello")
+// // app.listen(port, async () => {
+// // serverPreparation();
+// // startServer();
+// // });a
 
-function main() {}
+// // console.log("hello")
 
-main();
+// function main() {}
 
-function applyNNotionToCGoogleCalendar() {
-  generateIdCGoogleCalendar();
-  //checking cbuffer for updates and creations
-  for (let i = 0; i < notionChBuffer.length; ++i) {
-    if (idCGoogleCalendar.includes(notionChBuffer[i].GoogleCalendarID)) {
-      //this is a existing one
-      gci.updateEvent(notionChBuffer[i].GoogleCalendarID, notionChBuffer[i]);
-    } else {
-      // cGoogleCalendar.push(notionChBuffer[i]);
-      cNotion[
-        getCNotionIndexById(notionChBuffer[i].NotionID)
-      ].GoogleCalendarID = gci.addEvent(notionChBuffer[i]);
-      cGoogleCalendar.push(
-        cNotion[getCNotionIndexById(notionChBuffer[i].NotionID)]
-      );
-    }
-  }
-  //checking left overs for deletion
-}
-
-function getCNotionIndexById(id: string): any {
-  for (let x = 0; x < cNotion.length; x++) {
-    if (id == cNotion[x].NotionID) {
-      return x;
-    }
-  }
-  return undefined;
-}
-
-function getCGoogleCalendarById(id: string) {}
+// main();
 
 
 
 
 
-// async function init() {
-//   ni = new NotionIntegration();
-//   gci = new GoogleCalendarIntegration();
-//   await gci.init();
+// function getCGoogleCalendarById(id: string) {}
 
-//   notionChBuffer = [];
-//   cGoogleCalendar = [];
-//   nGoogleCalendar = [];
-//   cNotion = [];
-//   nNotion = [];
 
-//   initCNotion();
-//   initCGoogleCalendar();
 
-//   generateIdCNotion();
-//   generateIdCGoogleCalendar();
-}
 
-async function serverPreparation() {
-  await init();
-}
 
-function startServer() {
-  nicLoop();
-  // setInterval(() => {
-  //   nicLoop();
-  // }, 60000);
-}
+// // async function init() {
+// //   ni = new NotionIntegration();
+// //   gci = new GoogleCalendarIntegration();
+// //   await gci.init();
 
-async function nicLoop() {
-  generateIdCNotion(); //generate new check up ids
-  notionChBuffer = []; //removing the previous changes
-  nNotion = ni.transformInActions(await ni.getActions()); //getting the new Notion status
-  extractNotionChanges(); //getting the changes(comparing with old status), left over ids are all ids of unknown elements
-  applyNNotionToCGoogleCalendar(); //applying all new things to google calendar
-  updateCGoogleCalendarJSONData();
-  await updateCNotionJSONData(); //writing it into json
-}
+// //   notionChBuffer = [];
+// //   cGoogleCalendar = [];
+// //   nGoogleCalendar = [];
+// //   cNotion = [];
+// //   nNotion = [];
+
+// //   initCNotion();
+// //   initCGoogleCalendar();
+
+// //   generateIdCNotion();
+// //   generateIdCGoogleCalendar();
+// // }
+
+// // async function serverPreparation() {
+// //   await init();
+// // }
+
+// function startServer() {
+//   nicLoop();
+//   // setInterval(() => {
+//   //   nicLoop();
+//   // }, 60000);
+// }
+
+// async function nicLoop() {
+//   generateIdCNotion(); //generate new check up ids
+//   notionChBuffer = []; //removing the previous changes
+//   nNotion = ni.transformInActions(await ni.getActions()); //getting the new Notion status
+//   extractNotionChanges(); //getting the changes(comparing with old status), left over ids are all ids of unknown elements
+//   applyNNotionToCGoogleCalendar(); //applying all new things to google calendar
+//   updateCGoogleCalendarJSONData();
+//   await updateCNotionJSONData(); //writing it into json
+// }
