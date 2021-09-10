@@ -2,16 +2,18 @@
   "name": "notion-integration-system",
   "version": "1.0.0",
   "description": "Update Notion-page-properties automatically and Integrate Notion-database-entrys with Google Calendar or Microsoft TODO .",
-  "main": "src/index.js",
+  "main": "/src/commands/nis.js",
+  "bin": {
+    "pizza":"./src/commands/nis.js"
+  },
   "scripts": {
     "start": "node dist/index.js",
     "dev": "nodemon --exec ts-node src/index.ts",
-    "build": "tsc -p .",
-    "package": "pkg . --targets node14-macos-x64 --output hello"
+    "build": "tsc ./src/commands/nis.ts",
+    "package": "pkg . --targets node14-macos-x64 --output hello",
+    "local": "sudo npm uninstall -g && sudo npm install -g && pizza"
   },
-  "bin": {
-    "hello": "./dist/commands/cli.js"
-  },
+
   "pkg": {
     "scripts": "dist/**/*.js"
   },
@@ -40,26 +42,31 @@
     "@notionhq/client": "^0.2.3",
     "@types/inquirer": "^8.1.1",
     "axios": "^0.21.1",
+    "chalk": "^3.0.0",
+    "clear": "^0.1.0",
+    "commander": "^8.2.0",
     "dotenv": "^10.0.0",
     "esm": "^3.2.25",
     "execa": "^5.1.1",
     "express": "^4.17.1",
+    "figlet": "^1.5.2",
     "fs-extra": "^10.0.0",
     "googleapis": "^39.2.0",
     "node-fetch": "^2.6.1",
+    "path": "^0.12.7",
     "pkg-install": "^1.0.0",
+    "ts-loader": "^9.2.5",
     "ts-node-dev": "^1.1.8",
     "yargs": "^17.1.1"
   },
   "devDependencies": {
-    "@types/node": "^16.9.0",
+    "@types/clear": "^0.1.2",
+    "@types/figlet": "^1.5.4",
+    "@types/node": "^16.9.1",
     "@types/yargs": "^17.0.2",
-    "@typescript-eslint/eslint-plugin": "^4.31.0",
-    "@typescript-eslint/parser": "^4.31.0",
-    "eslint": "^7.32.0",
     "nodemon": "^2.0.12",
     "pkg": "^5.3.1",
-    "ts-node": "^10.1.0",
+    "ts-node": "^10.2.1",
     "typecript": "^0.0.1-security",
     "typescript": "^4.4.2"
   }
