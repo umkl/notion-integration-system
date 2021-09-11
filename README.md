@@ -5,8 +5,7 @@
 
 # What it does
 
-On May 13, 2021 Notion released an official version of their API which makes it possible to connect to your Notion Workspace data using 
-an API. 
+On May 13, 2021 Notion released an official version of their API which makes it possible to retrieve your Notion-Data and use it in other Applications or implement features and automation-routines that are not currently supported by the editor itself.
 
 ## The Problem
 Notion on its own is great, but certain activites like creating a proper schedule is as of now still quite laborious. Applications like Microsoft TODO and Google Calendar are better at certain tasks but it also sucks if you are required to create the same events in multiple applications.
