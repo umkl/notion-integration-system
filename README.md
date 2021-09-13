@@ -3,6 +3,8 @@
     <h1>Notion-Integration-System</h1>
 </div>
 
+> Project not finished (WIP)
+
 # What it does
 
 On May 13, 2021 Notion released an official version of their API which makes it possible to retrieve your Notion-Data and use it in other Applications or implement features and automation-routines that are not currently supported by the editor itself.
