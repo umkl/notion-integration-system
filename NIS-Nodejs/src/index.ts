@@ -36,15 +36,7 @@
 
 // main();
 
-
-
-
-
 // function getCGoogleCalendarById(id: string) {}
-
-
-
-
 
 // // async function init() {
 // //   ni = new NotionIntegration();
@@ -84,5 +76,4 @@
 //   updateCGoogleCalendarJSONData();
 //   await updateCNotionJSONData(); //writing it into json
 // }
-
 

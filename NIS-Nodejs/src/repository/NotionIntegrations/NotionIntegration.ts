@@ -4,12 +4,12 @@ import { RepositoryInterface } from "../RepositoryInterface";
 const dotenv = require("dotenv").config();
 const { Client, isNotionClientError } = require("@notionhq/client");
 
-let notionCredentials = require("./../../credentials/notion/notion.json");
+// let notionCredentials = require("./../../credentials/notion/notion.json");
 
 export class NotionIntegration implements RepositoryInterface {
   data: any[] = [];
-  accessId: string = notionCredentials.notion_access_token;
-  action_database_id: string = notionCredentials.notion_action_database_id;
+  accessId: string = process.env.NOTION_ACCESS_TOKEN ?? "";
+  action_database_id: string = process.env.NOTION_ACTION_DATABASE_ID ?? ""; 
   notionClient: any;
 
   constructor() {
@@ -26,7 +26,7 @@ export class NotionIntegration implements RepositoryInterface {
     const listUserResponse = await this.notionClient.users.list();
   };
 
-  getEntries = async (database_id: string) => {
+  getEntries = async (database_id: string|undefined) => {
     var EntryList: any[];
     const payload = {
       path: `databases/${database_id}/query`,

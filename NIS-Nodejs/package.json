@@ -1,17 +1,18 @@
 {
   "name": "notion-integration-system",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Update Notion-page-properties automatically and Integrate Notion-database-entrys with Google Calendar or Microsoft TODO .",
   "main": "/dist/commands/nis.js",
   "bin": {
-    "pizza": "./dist/commands/nis.js"
+    "nis": "./dist/commands/nis.js"
   },
   "scripts": {
-    "start": "node dist/index.js",
-    "dev": "nodemon --exec ts-node src/index.ts",
+    "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/commands/nis.ts",
+    "dev": "npm run build && npm run test",
+    "test": "sudo npm i -g && nis",
     "build": "tsc -P .",
     "package": "pkg . --targets node14-macos-x64 --output hello",
-    "local": "sudo npm uninstall -g && sudo npm install -g && pizza"
+    "local": "sudo npm uninstall -g && sudo npm install -g && nis"
   },
   "pkg": {
     "scripts": "dist/**/*.js"
