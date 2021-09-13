@@ -3,7 +3,7 @@
     <h1>Notion-Integration-System</h1>
 </div>
 
-> Project not finished (WIP)
+> Project not finished yet(WIP)
 
 # What it does
 
