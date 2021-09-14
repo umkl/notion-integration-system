@@ -30,10 +30,8 @@ program.addHelpText(
 const options = { journal: true };
 
 if (options.journal) {
-    startJournalServer();
+  startJournalServer();
 }
-
-
 
 // if (options.pineapple) console.log('  - pineapple');
 // if (options.bbq) console.log('  - bbq');

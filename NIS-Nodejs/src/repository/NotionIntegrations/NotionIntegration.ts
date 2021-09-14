@@ -4,8 +4,6 @@ import { RepositoryInterface } from "../RepositoryInterface";
 const dotenv = require("dotenv").config();
 const { Client, isNotionClientError } = require("@notionhq/client");
 
-// let notionCredentials = require("./../../credentials/notion/notion.json");
-
 export class NotionIntegration implements RepositoryInterface {
   data: any[] = [];
   accessId: string = process.env.NOTION_ACCESS_TOKEN ?? "";
@@ -27,13 +25,16 @@ export class NotionIntegration implements RepositoryInterface {
   };
 
   getEntries = async (database_id: string|undefined) => {
-    var EntryList: any[];
+    if(database_id == undefined){
+      throw new Error('Please provide a DatabaseID!');
+      return;
+    }
     const payload = {
       path: `databases/${database_id}/query`,
       method: "POST",
     };
     const { results } = await this.notionClient.request(payload);
-    return payload;
+    return results;
   };
 
   addEntry = async (page: any) => {
