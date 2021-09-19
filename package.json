@@ -1,0 +1,73 @@
+{
+  "name": "notion-integration-system",
+  "version": "0.0.1",
+  "description": "Update Notion-page-properties automatically and Integrate Notion-database-entrys with Google Calendar or Microsoft TODO .",
+  "main": "/dist/commands/nis.js",
+  "bin": {
+    "nis": "./dist/commands/nis.js"
+  },
+  "scripts": {
+    "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/commands/nis.ts",
+    "dev": "npm run build && npm run test",
+    "test": "sudo npm i -g && nis",
+    "build": "tsc -P .",
+    "package": "pkg . --targets node14-macos-x64 --output hello",
+    "local": "sudo npm uninstall -g && sudo npm install -g && nis"
+  },
+  "pkg": {
+    "scripts": "dist/**/*.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "cli",
+    "googlecalendar-api",
+    "microsoft-api",
+    "notion",
+    "notion-api"
+  ],
+  "author": "Michael Ungar",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ungarmichael/NIS.git"
+  },
+  "bugs": {
+    "url": "git+https://github.com/ungarmichael/NIS/issues"
+  },
+  "homepage": "https://github.com/ungarmichael/NIS#readme",
+  "dependencies": {
+    "@googleapis/docs": "^0.2.0",
+    "@notionhq/client": "^0.2.3",
+    "@types/inquirer": "^8.1.1",
+    "axios": "^0.21.1",
+    "chalk": "^3.0.0",
+    "clear": "^0.1.0",
+    "commander": "^8.2.0",
+    "dotenv": "^10.0.0",
+    "esm": "^3.2.25",
+    "execa": "^5.1.1",
+    "express": "^4.17.1",
+    "figlet": "^1.5.2",
+    "fs-extra": "^10.0.0",
+    "googleapis": "^87.0.0",
+    "node-fetch": "^2.6.1",
+    "path": "^0.12.7",
+    "pkg-install": "^1.0.0",
+    "ts-loader": "^9.2.5",
+    "ts-node-dev": "^1.1.8",
+    "yargs": "^17.1.1"
+  },
+  "devDependencies": {
+    "@types/clear": "^0.1.2",
+    "@types/figlet": "^1.5.4",
+    "@types/node": "^16.9.1",
+    "@types/yargs": "^17.0.2",
+    "nodemon": "^2.0.12",
+    "pkg": "^5.3.1",
+    "ts-node": "^10.2.1",
+    "typecript": "^0.0.1-security",
+    "typescript": "^4.4.2"
+  }
+}
