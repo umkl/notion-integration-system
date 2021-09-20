@@ -12,7 +12,6 @@ const journalLoop = async () => {
   const allCurrentJournalEntries = await ni.getEntries(
     process.env.NOTION_JOURNAL_DATABASE_ID
   );
-
   //TODO2: check if journal entry is missing
 
   //TODO3: schedule a creation-event for a new journal at 1am next day.

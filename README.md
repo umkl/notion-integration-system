@@ -10,10 +10,18 @@
 On May 13, 2021 Notion released an official version of their API which makes it possible to retrieve your Notion-Data and use it in other Applications or implement features and automation-routines that are not currently supported by the editor itself.
 
 ## The Problem
+
 Notion on its own is great, but certain activites like creating a proper schedule is as of now still quite laborious. Applications like Microsoft TODO and Google Calendar are better at certain tasks but it also sucks if you are required to create the same events in multiple applications.
 
 ## The Solution
+
 That is why I decided to make use of the new api in order to sync my calendar data with my notion-databases.
+
+## Dev Environment
+
+```
+npm run dev
+```
 
 <!-- ## Execute the Project
 
@@ -85,12 +93,9 @@ Illustrations where copied from [undraw.co](https://undraw.co) and  [vecteezy.co
     * other libraries can be viewed in the _/package.json_ file
 * CSS-extensions
     * _Sass_ combined with
-        * inline_media 
+        * inline_media
 * Version-control
     * _Git_
  -->
 
-If you encounter any unwanted behaviours, please report them to 
-    -> <a href='mailto:ungarmichael.mail@gmail.com'>ungarmichael.mail@gmail.com</a>.
-
-
+say hello -> <a href='mailto:ungarmichael.mail@gmail.com'>ungarmichael.mail@gmail.com</a>.
