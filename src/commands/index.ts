@@ -25,13 +25,24 @@ program.addHelpText(
 
 // defining options
 // var options = program.opts();
+
 const options = { journal: true, init: false };
 
-if (options.journal) {
-  startJournalServer();
-} else if (options.init) {
+// if (options.lois == undefined) {
+//   console.log("ok");
+// }
 
-}
+// if (options.journal) {
+//   startJournalServer();
+// } else if (options.init) {
+// }
+
+// switch (options) {
+//   case journal:
+//     startJournalServer();
+//     break;
+//   case init:
+// }
 
 // if (options.pineapple) console.log('  - pineapple');
 // if (options.bbq) console.log('  - bbq');

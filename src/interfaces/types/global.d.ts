@@ -3,6 +3,20 @@ declare interface Foo {
   fooBar: string;
 }
 
+enum Options {
+  JOURNAL,
+  INIT,
+  
+}
+
+declare type Journal = {
+  Length: Date;
+  Actions: any[];
+  Events: any[];
+  Goals: any[];
+
+}
+
 declare type Action = {
   Description: string;
   Name: string;
