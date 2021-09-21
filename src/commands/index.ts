@@ -24,12 +24,13 @@ program.addHelpText(
 );
 
 // defining options
-var options = program.opts();
-// const options = { journal: true, init: false };
+// var options = program.opts();
+const options = { journal: true, init: false };
 
 if (options.journal) {
   startJournalServer();
 } else if (options.init) {
+
 }
 
 // if (options.pineapple) console.log('  - pineapple');
