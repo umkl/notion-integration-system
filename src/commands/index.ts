@@ -15,7 +15,9 @@ program
     "An Integration System for putting your Notion-workspace to the next level."
   )
   .option("-j, --journal", "Update journal")
-  .option("-i, --init", "Add the specified type of cheese [marble]")
+  .option("-i, --init", "Initialize the credentials")
+  .option("-c, --create", "Create new service")
+  .option("-d, --install", "Install service on new location")
   .parse(process.argv);
 
 program.addHelpText(
