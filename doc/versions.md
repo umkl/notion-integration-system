@@ -19,7 +19,9 @@ Setting the programming-language and database for version 1.
 
 ### Version 0.3.0
 
+Creating basic CLI.
 
+### Version 0.4.0
 
 # Version 1
 ## Version 1.1
