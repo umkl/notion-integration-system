@@ -1,9 +1,25 @@
 # NIS - Version Documentation
-# Introdcution
-## Semantic Versioning 2.0.0
+## Introdcution
+This is the roadmap for the versions of this project. It contains a brief explanation of every project stage be it bug, minor, major impact. 
+
+### Semantic Versioning 2.0.0
 MAJOR version when you make incompatible API changes,
 MINOR version when you add functionality in a backwards compatible manner, and
 PATCH version when you make backwards compatible bug fixes.
+
+# Version 0
+## Version 0.0
+### Version 0.1.0
+
+Initializing of the project directory.
+
+### Version 0.2.0
+
+Setting the programming-language and database for version 1.
+
+### Version 0.3.0
+
+
 
 # Version 1
 ## Version 1.1

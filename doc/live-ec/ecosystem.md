@@ -5,7 +5,7 @@ This documentation sheet is about creating, maintaining and organising the perfe
 # Agenda
 * Motivation
 * Requirements
-* How to start
+* Functionality
 * Identification
 * Maintainance
 * Best practices
@@ -18,7 +18,10 @@ In order to get full control of all the data you need for steadily improving and
 
 # Requirements
 
-# How to start
+# Functionality
+
+The base-construct consists of Goals, Actions, Projects and Times. They all are related to each other and create the core elements of abstractation to apply in your life.
+
 
 # Identification
 
