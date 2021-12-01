@@ -3,25 +3,15 @@
     <h1>Notion-Integration-System</h1>
 </div>
 
-> Project not finished yet(WIP)
-
-# What it does
-
 On May 13, 2021 Notion released an official version of their API which makes it possible to retrieve your Notion-Data and use it in other Applications or implement features and automation-routines that are not currently supported by the editor itself.
 
 ## The Problem
 
-Notion on its own is great, but certain activites like creating a proper schedule is as of now still quite laborious. Applications like Microsoft TODO and Google Calendar are better at certain tasks but it also sucks if you are required to create the same events in multiple applications.
+Notion on its own is great, but certain activites like creating a proper schedule is as of now still quite laborious. Furthermore building a *second-brain* requires a lot of relations and database-entries which is a lot for notion to handle - this causes it to get noticeable slower.
 
 ## The Solution
 
-That is why I decided to make use of the new api in order to sync my calendar data with my notion-databases.
-
-## Dev Environment
-
-```
-npm run dev
-```
+The Notion Integration System acts like a central point between notion and other supported API's. All data is stored in a database which provides fast CRUD operations. Also in order to provide a proper second brain the system aims to make note-taking easy-to-use with the integrated CLI and a large support of file-formats.
 
 <!-- ## Execute the Project
 

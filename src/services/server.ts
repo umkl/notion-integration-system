@@ -14,13 +14,12 @@ const journalLoop = async () => {
   );
 
   console.log(allCurrentJournalEntries);
-  
+
   //TODO2: check if journal entry is missing
-    for(var journalEntry of allCurrentJournalEntries){
-      if(journalEntry.created_time == Date.toString()){
-        
-      }
+  for (var journalEntry of allCurrentJournalEntries) {
+    if (journalEntry.created_time == Date.toString()) {
     }
+  }
 
   //TODO3: schedule a creation-event for a new journal at 1am next day.
 };
