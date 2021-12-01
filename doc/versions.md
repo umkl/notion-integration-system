@@ -9,6 +9,10 @@ PATCH version when you make backwards compatible bug fixes.
 
 # Version 0
 ## Version 0.0
+### Version 0.0.0
+
+Defining the Purpose of NIS.
+
 ### Version 0.1.0
 
 Initializing of the project directory.
