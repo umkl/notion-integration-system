@@ -1,6 +1,6 @@
 {
   "name": "notion-integration-system",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Update Notion-page-properties automatically and Integrate Notion-database-entrys with Google Calendar or Microsoft TODO .",
   "main": "/dist/commands/nis.js",
   "bin": {
