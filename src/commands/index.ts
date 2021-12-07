@@ -14,6 +14,7 @@ program
   .description(
     "An Integration System for putting your Notion-workspace to the next level."
   )
+  .option("-t, --test", "Test")
   .option("-j, --journal", "Update journal")
   .option("-i, --init", "Initialize the credentials")
   .option("-c, --create", "Create new service")

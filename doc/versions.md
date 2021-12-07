@@ -27,9 +27,7 @@ Defining the tech-stack and creating the project directory structure.
 ### Version 0.2.0
 
 Creating the CLI-scaffold.
-
-### Version 0.3.0
-
+Using a ORM.
 Creating the database.
 
 # Version 1
