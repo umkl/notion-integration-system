@@ -1,0 +1,9 @@
+#! /usr/bin/env node
+const yargs = require("yargs");
+const usage ="how to use";
+const options = yargs.usage(usage)
+.option("l",{alias:"langauges", describe:"list all supported langs", type:"boolean", demandOption:false})
+.help(true)
+.argv;
+
+console.log("test")

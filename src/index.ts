@@ -1,3 +1,9 @@
+function main(){
+    var i = 0;
+    console.log("abfahrt");
+        
+}
+
 // //IMPORTS
 // import { GoogleCalendarIntegration } from "./repository/GoogleCloud/GoogleCalendar";
 // import { NotionIntegration } from "./repository/NotionIntegrations/NotionIntegration";
