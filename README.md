@@ -87,5 +87,3 @@ Illustrations where copied from [undraw.co](https://undraw.co) and  [vecteezy.co
 * Version-control
     * _Git_
  -->
-
-say hello -> <a href='mailto:ungarmichael.mail@gmail.com'>ungarmichael.mail@gmail.com</a>.
