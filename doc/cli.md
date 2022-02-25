@@ -1,7 +1,4 @@
-# NIS - CLI
-
-An Integration System for putting your Notion-workspace to the next level.
-
+# CLI for notion api
 ## -t, --test
 test the system
 

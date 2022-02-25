@@ -5,8 +5,7 @@ declare interface Foo {
 
 enum Options {
   JOURNAL,
-  INIT,
-  
+  INIT
 }
 
 declare type Journal = {
