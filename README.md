@@ -5,13 +5,21 @@
 
 On May 13, 2021 Notion released an official version of their API which makes it possible to retrieve your Notion-Data and use it in other Applications or implement features and automation-routines that are not currently supported by the editor itself.
 
-## The Problem
+## Concept 1 - 6.Juli 2021
+
+### The Problem
 
 Notion on its own is great, but certain activites like creating a proper schedule is as of now still quite laborious. Furthermore building a *second-brain* requires a lot of relations and database-entries which is a lot for notion to handle - this causes it to get noticeable slower.
 
-## The Solution
+### The Solution
 
 The Notion Integration System acts like a central point between notion and other supported API's. All data is stored in a database which provides fast CRUD operations. Also in order to provide a proper second brain the system aims to make note-taking easy-to-use with the integrated CLI and a large support of file-formats.
+
+## Version 2 - 4.Mar 2022
+
+## Concept 2 
+
+The notion-integration-system fetches all data from notion and stores it in a postgres database based on a self-defined model. From there you can access it by the command line and manipulate the data on it using the CLI.
 
 <!-- ## Execute the Project
 
