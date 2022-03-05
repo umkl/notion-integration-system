@@ -1,10 +1,10 @@
 import { ClientRequest } from "http";
 import { NotionIntegration } from "../repository/NotionIntegrations/NotionIntegration";
 
-const dotenv = require("dotenv").config();
-const https = require("https");
-const axios = require("axios");
-const { Client } = require("@notionhq/client");
+require("dotenv").config();
+import https from "https";
+import axios from "axios";
+import { Client } from "@notionhq/client";
 
 // export function fetchFromJournal() {
 //   let token = process.env.NOTION_ACCESS_TOKEN;
@@ -42,7 +42,9 @@ const { Client } = require("@notionhq/client");
 //   // })
 // }
 
-export const fetchFromJournal = async () => {
+export const fetchAllDb = async (client: typeof Client) => {};
+
+export const fetchFromJournal = async (client: typeof Client) => {
   const notion = new Client({
     auth: process.env.NOTION_ACCESS_TOKEN,
   });
@@ -52,8 +54,8 @@ export const fetchFromJournal = async () => {
     method: "POST",
   };
 
-  const {results} = await notion.request(payload);
+  const { results } = await notion.request(payload);
 
   console.log(database_id);
-  console.log(results)
+  console.log(results);
 };
