@@ -1,16 +1,19 @@
 import { Client } from "@notionhq/client";
+import { DatabasesQueryResponse } from "@notionhq/client/build/src/api-endpoints";
 
 const getDatabase = async (dbId: string, notion: any) => {
   await notion.databases.retrieve({ database_id: dbId });
 };
 
-export const getAllPagesFromDatabase = async () => {
-  const databaseId = process.env.NOTION_ACTION_DATABASE_ID;
+const getAllPagesFromDatabase = async (
+  dbId: string
+): Promise<DatabasesQueryResponse> => {
   const notion = new Client({ auth: process.env.NOTION_ACCESS_TOKEN });
   const response = await notion.databases.query({
-    database_id: databaseId!,
+    database_id: dbId!,
   });
-  console.log(response);
+  console.log(response.results);
+  return response;
 };
 
 const getPage = async (pageId: string, notion: any) => {
@@ -18,4 +21,4 @@ const getPage = async (pageId: string, notion: any) => {
   return resp;
 };
 
-export default getDatabase;
+export { getDatabase, getAllPagesFromDatabase, getPage };
