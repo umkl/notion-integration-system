@@ -3,6 +3,9 @@
     <h1>Notion-Integration-System</h1>
 </div>
 
+handle notion data with cli
+
+<!-- 
 On May 13, 2021 Notion released an official version of their API which makes it possible to retrieve your Notion-Data and use it in other Applications or implement features and automation-routines that are not currently supported by the editor itself.
 
 ## Concept 1 - 6.Juli 2021
@@ -19,7 +22,7 @@ The Notion Integration System acts like a central point between notion and other
 
 ## Concept 2 
 
-The notion-integration-system fetches all data from notion and stores it in a postgres database based on a self-defined model. From there you can access it by the command line and manipulate the data on it using the CLI.
+The notion-integration-system fetches all data from notion and stores it in a postgres database based on a self-defined model. From there you can access it by the command line and manipulate the data on it using the CLI. -->
 
 <!-- ## Execute the Project
 

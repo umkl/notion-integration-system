@@ -8,10 +8,10 @@
     "tran": "./bin/yarg"
   },
   "scripts": {
-    "build": "tsc -P .",
-    "runnode": "nodemon dist/index.js",
-    "runtsc": "tsc --watch",
+    "watch-dist": "nodemon dist/index.js",
+    "watch-tsc": "tsc --watch",
     "dev": "npm run build && npm run start",
+    "build": "tsc -P .",
     "refreshCLI": "tsc -p . && nis",
     "nodemonIndex": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
     "devCli": "npm run build && npm run test",
