@@ -1,10 +1,10 @@
-import { ClientRequest } from "http";
-import { NotionIntegration } from "../repository/NotionIntegrations/NotionIntegration";
+// import { ClientRequest } from "http";
+// import { NotionIntegration } from "../repository/NotionIntegrations/NotionIntegration";
 
-require("dotenv").config();
-import https from "https";
-import axios from "axios";
-import { Client } from "@notionhq/client";
+// require("dotenv").config();
+// import https from "https";
+// import axios from "axios";
+// import { Client } from "@notionhq/client";
 
 // export function fetchFromJournal() {
 //   let token = process.env.NOTION_ACCESS_TOKEN;
@@ -42,20 +42,20 @@ import { Client } from "@notionhq/client";
 //   // })
 // }
 
-export const fetchAllDb = async (client: typeof Client) => {};
+// export const fetchAllDb = async (client: typeof Client) => {};
 
-export const fetchFromJournal = async (client: typeof Client) => {
-  const notion = new Client({
-    auth: process.env.NOTION_ACCESS_TOKEN,
-  });
-  const database_id = process.env.NOTION_JOURNAL_DATABASE_ID;
-  const payload = {
-    path: `databases/${database_id}/query`,
-    method: "POST",
-  };
+// export const fetchFromJournal = async (client: typeof Client) => {
+//   const notion = new Client({
+//     auth: process.env.NOTION_ACCESS_TOKEN,
+//   });
+//   const database_id = process.env.NOTION_JOURNAL_DATABASE_ID;
+//   const payload = {
+//     path: `databases/${database_id}/query`,
+//     method: "POST",
+//   };
 
-  const { results } = await notion.request(payload);
+//   const { results } = await notion.request(payload);
 
-  console.log(database_id);
-  console.log(results);
-};
+//   console.log(database_id);
+//   console.log(results);
+// };

@@ -1,3 +1,3 @@
-export const initializeCredentials = () => {
-    console.log("Enter Email")
-};
+// export const initializeCredentials = () => {
+//     console.log("Enter Email")
+// };
