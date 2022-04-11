@@ -43,7 +43,7 @@ function parseArgumentsIntoOptions(rawArgs: any){
 
 export function cli(args: any){
   // let options = parseArgumentsIntoOptions(args);  
-  console.log(getKeyByDbName(args[2]))
+  getAllPagesFromDatabase(getKeyByDbName(args[2]))
   // getAllPagesFromDatabase(process.env.NOTION_ACTION_DATABASE_ID!)
 }
 
