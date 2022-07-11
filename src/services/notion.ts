@@ -18,9 +18,7 @@ const getAllPagesFromDatabase = async (
 
 const getPage = async (pageId: string, notion: any) => {
   const resp: Promise<any> = await notion.pages.retrieve({ page_id: pageId });
-  const res = await resp;
-  
-    
+  // const res = await resp;
   return resp;
 };
 

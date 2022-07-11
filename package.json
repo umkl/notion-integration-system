@@ -8,6 +8,7 @@
     "tran": "./bin/yarg"
   },
   "scripts": {
+    "start": "tsc & node dist/index.js",
     "watch-dist": "nodemon dist/index.js",
     "watch-tsc": "tsc --watch",
     "dev": "npm run build && npm run start",
@@ -72,7 +73,7 @@
   "devDependencies": {
     "@types/clear": "^0.1.2",
     "@types/figlet": "^1.5.4",
-    "@types/node": "^16.9.1",
+    "@types/node": "^16.11.32",
     "@types/yargs": "^17.0.2",
     "nodemon": "^2.0.12",
     "pkg": "^5.3.1",
