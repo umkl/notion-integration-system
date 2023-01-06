@@ -1,5 +1,5 @@
 <div align="center">
-    <img alt="NIS Logo" src="assets/NIS-Logo.png" width="200"/>
+    <img alt="NIS Logo" src="assets/NIS-Logo.png" width="100"/>
     <h1>Notion-Integration-System</h1>
 </div>
 
@@ -98,5 +98,3 @@ Illustrations where copied from [undraw.co](https://undraw.co) and  [vecteezy.co
 * Version-control
     * _Git_
  -->
-
-say hello -> <a href='mailto:ungarmichael.mail@gmail.com'>ungarmichael.mail@gmail.com</a>.
