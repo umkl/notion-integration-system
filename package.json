@@ -1,85 +1,85 @@
 {
-  "name": "notion-integration-system",
-  "version": "0.2.0",
-  "description": "Update Notion-page-properties automatically and Integrate Notion-database-entrys with Google Calendar or Microsoft TODO .",
-  "bin": {
-    "create-project": "./bin/create-project",
-    "nis": "./bin/nis",
-    "tran": "./bin/yarg"
-  },
-  "scripts": {
-    "start": "tsc & node dist/index.js",
-    "watch-dist": "nodemon dist/index.js",
-    "watch-tsc": "tsc --watch",
-    "dev": "npm run build && npm run start",
-    "build": "tsc -P .",
-    "refreshCLI": "tsc -p . && nis",
-    "nodemonIndex": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
-    "devCli": "npm run build && npm run test",
-    "start1": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/commands/index.ts",
-    "test": "sudo npm i -g && nis",
-    "package": "pkg . --targets node14-macos-x64 --output hello",
-    "local": "sudo npm uninstall -g && sudo npm install -g && nis"
-  },
-  "pkg": {
-    "scripts": "dist/**/*.js"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "keywords": [
-    "cli",
-    "googlecalendar-api",
-    "microsoft-api",
-    "notion",
-    "notion-api"
-  ],
-  "author": "Michael Ungar",
-  "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ungarmichael/NIS.git"
-  },
-  "bugs": {
-    "url": "git+https://github.com/ungarmichael/NIS/issues"
-  },
-  "homepage": "https://github.com/ungarmichael/NIS#readme",
-  "dependencies": {
-    "@googleapis/docs": "^0.2.0",
-    "@notionhq/client": "^1.0.4",
-    "@types/inquirer": "^8.1.1",
-    "arg": "^5.0.1",
-    "async": "^3.2.2",
-    "axios": "^0.21.4",
-    "chalk": "^3.0.0",
-    "clear": "^0.1.0",
-    "commander": "^8.2.0",
-    "dotenv": "^10.0.0",
-    "esm": "^3.2.25",
-    "exec": "^0.2.1",
-    "execa": "^5.1.1",
-    "express": "^4.17.1",
-    "figlet": "^1.5.2",
-    "fs-extra": "^10.0.0",
-    "googleapis": "^87.0.0",
-    "inquirer": "^8.2.2",
-    "node-fetch": "^2.6.1",
-    "path": "^0.12.7",
-    "pkg-install": "^1.0.0",
-    "ts-loader": "^9.2.5",
-    "ts-node-dev": "^1.1.8",
-    "yargs": "^17.3.0"
-  },
-  "devDependencies": {
-    "@types/clear": "^0.1.2",
-    "@types/figlet": "^1.5.4",
-    "@types/node": "^16.11.32",
-    "@types/yargs": "^17.0.2",
-    "nodemon": "^2.0.12",
-    "pkg": "^5.3.1",
-    "ts-node": "^10.6.0",
-    "tsconfig-paths": "^3.12.0",
-    "typecript": "^0.0.1-security",
-    "typescript": "^4.4.2"
-  }
+    "name": "notion-integration-system",
+    "version": "0.2.0",
+    "description": "Update Notion-page-properties automatically and Integrate Notion-database-entrys with Google Calendar or Microsoft TODO .",
+    "bin": {
+        "create-project": "./bin/create-project",
+        "nis": "./bin/nis",
+        "tran": "./bin/yarg"
+    },
+    "scripts": {
+        "build-n-run": "tsc & node dist/index.js",
+        "dev-watch-dist": "nodemon dist/index.js",
+        "dev-watch-tsc": "tsc --watch",
+        "dev": "npm run build && npm run start",
+        "build": "tsc -P .",
+        "refreshCLI": "tsc -p . && nis",
+        "nodemonIndex": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
+        "devCli": "npm run build && npm run test",
+        "start1": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/commands/index.ts",
+        "test": "sudo npm i -g && nis",
+        "package": "pkg . --targets node14-macos-x64 --output hello",
+        "local": "sudo npm uninstall -g && sudo npm install -g && nis"
+    },
+    "pkg": {
+        "scripts": "dist/**/*.js"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "keywords": [
+        "cli",
+        "googlecalendar-api",
+        "microsoft-api",
+        "notion",
+        "notion-api"
+    ],
+    "author": "Michael Ungar",
+    "license": "ISC",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ungarmichael/NIS.git"
+    },
+    "bugs": {
+        "url": "git+https://github.com/ungarmichael/NIS/issues"
+    },
+    "homepage": "https://github.com/ungarmichael/NIS#readme",
+    "dependencies": {
+        "@googleapis/docs": "^0.2.0",
+        "@notionhq/client": "^1.0.4",
+        "@types/inquirer": "^8.1.1",
+        "arg": "^5.0.1",
+        "async": "^3.2.2",
+        "axios": "^0.21.4",
+        "chalk": "^3.0.0",
+        "clear": "^0.1.0",
+        "commander": "^8.2.0",
+        "dotenv": "^10.0.0",
+        "esm": "^3.2.25",
+        "exec": "^0.2.1",
+        "execa": "^5.1.1",
+        "express": "^4.17.1",
+        "figlet": "^1.5.2",
+        "fs-extra": "^10.0.0",
+        "googleapis": "^87.0.0",
+        "inquirer": "^8.2.2",
+        "node-fetch": "^2.6.1",
+        "path": "^0.12.7",
+        "pkg-install": "^1.0.0",
+        "ts-loader": "^9.2.5",
+        "ts-node-dev": "^1.1.8",
+        "yargs": "^17.3.0"
+    },
+    "devDependencies": {
+        "@types/clear": "^0.1.2",
+        "@types/figlet": "^1.5.4",
+        "@types/node": "^16.11.32",
+        "@types/yargs": "^17.0.2",
+        "nodemon": "^2.0.12",
+        "pkg": "^5.3.1",
+        "ts-node": "^10.6.0",
+        "tsconfig-paths": "^3.12.0",
+        "typecript": "^0.0.1-security",
+        "typescript": "^4.4.2"
+    }
 }

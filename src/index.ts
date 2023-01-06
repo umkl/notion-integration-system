@@ -8,7 +8,7 @@
 //   const res = await getAllPagesFromDatabase(
 //     process.env.NOTION_ACTION_DATABASE_ID!
 //   );
-  
+
 //   // res.results.forEach(x => console.log(x.object));
 //   // console.log();
 // })();
@@ -31,31 +31,19 @@
 //     })
 //     const data = await res.json()
 
-    
 // })()
 
-// (async () => {
-//   // const databaseId = '668d797c-76fa-4934-9b05-ad288df2d136';
-//   const databaseId = process.env.NOTION_ACTION_DATABASE_ID;
-//   // const response = await notion.databases.retrieve({database_id: databaseId!})
-//   const response = await notion.databases.query({
-//     database_id: databaseId!,
-//     filter: {
-//       or: [
-     
-//       ],
-//     },
-//     sorts: [
-      
-//     ],
-//   });
-//   console.log(response);
-//   // console.log(response.object);
-// })();
-console.log("djsklaf")
-console.log("djsklaf")
-var lois = 2
-
-
-console.log("djsklaf")
-
+(async () => {
+    // const databaseId = '668d797c-76fa-4934-9b05-ad288df2d136';
+    const databaseId = process.env.NOTION_ACTION_DATABASE_ID;
+    // const response = await notion.databases.retrieve({database_id: databaseId!})
+    // const response = await notion.databases.query({
+    //     database_id: databaseId!,
+    //     filter: {
+    //         or: [],
+    //     },
+    //     sorts: [],
+    // });
+    console.log(databaseId);
+    // console.log(response.object);
+})();
